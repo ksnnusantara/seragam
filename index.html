@@ -168,6 +168,34 @@
                 width: 100%;
             }
         }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .status-verification {
+            background-color: rgba(253, 224, 71, 0.2);
+            color: #854d0e;
+        }
+        
+        .status-ok {
+            background-color: rgba(74, 222, 128, 0.2);
+            color: #166534;
+        }
+        
+        .status-no-acc {
+            background-color: rgba(248, 113, 113, 0.2);
+            color: #991b1b;
+        }
+        
+        .status-cancel {
+            background-color: rgba(209, 213, 219, 0.2);
+            color: #374151;
+        }
     </style>
 </head>
 <body class="font-poppins">
@@ -178,7 +206,6 @@
             <p class="text-lg font-semibold text-gray-800">Memproses...</p>
         </div>
     </div>
-
     <!-- Notification -->
     <div id="notification" class="fixed bottom-4 right-4 px-6 py-3 rounded-lg shadow-lg transform translate-y-16 transition-transform duration-300 z-50 hidden">
         <div class="flex items-center">
@@ -186,7 +213,54 @@
             <span id="notificationText">Pesan notifikasi</span>
         </div>
     </div>
-
+    
+    <!-- Modal untuk Ubah Status -->
+    <div id="statusModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-xl shadow-2xl p-8 w-full max-w-md" data-aos="fade-up">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-xl font-bold text-gray-800">Ubah Status HP</h3>
+                <button onclick="closeStatusModal()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <form id="statusForm" class="space-y-4">
+                <input type="hidden" id="statusId" name="id">
+                <input type="hidden" id="statusRowNumber" name="rowNumber">
+                
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-2">NPK:</label>
+                    <input type="text" id="statusNpk" readonly class="w-full px-4 py-3 bg-gray-100 border rounded-xl">
+                </div>
+                
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-2">Tipe HP:</label>
+                    <input type="text" id="statusTipeHp" readonly class="w-full px-4 py-3 bg-gray-100 border rounded-xl">
+                </div>
+                
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-2">Status Baru:</label>
+                    <select name="status" id="newStatus" required class="w-full px-4 py-3 border rounded-xl">
+                        <option value="">-- Pilih Status --</option>
+                        <option value="VERIFIKASI">VERIFIKASI</option>
+                        <option value="OK">OK</option>
+                        <option value="NO ACC">NO ACC</option>
+                        <option value="CANCEL">CANCEL</option>
+                    </select>
+                </div>
+                
+                <div class="flex justify-end space-x-3 pt-4">
+                    <button type="button" onclick="closeStatusModal()" class="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100 transition">
+                        Batal
+                    </button>
+                    <button type="submit" class="px-6 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition">
+                        Simpan Perubahan
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
     <!-- Main Selection Screen -->
     <div id="mainSelectionScreen" class="container mx-auto max-w-4xl py-10 px-4">
         <div class="text-center mb-12">
@@ -220,7 +294,6 @@
             </div>
         </div>
     </div>
-
     <!-- HP Application Screen (Hidden by default) -->
     <div id="hpApplication" class="container mx-auto max-w-4xl py-10 px-4 hidden">
         <div class="flex items-center justify-between mb-6">
@@ -277,7 +350,6 @@
             </button>
         </div>
     </div>
-
     <!-- HP Search Section (Hidden by default) -->
     <div id="hpSearchSection" class="container mx-auto max-w-4xl py-10 px-4 hidden">
         <div class="flex items-center justify-between mb-6">
@@ -318,6 +390,7 @@
                                 <th>Alamat Kirim</th>
                                 <th>Keterangan</th>
                                 <th>Status</th>
+                                <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody id="resultsBody"></tbody>
@@ -333,7 +406,6 @@
             </button>
         </div>
     </div>
-
     <!-- HP Input Section (Hidden by default) -->
     <div id="hpInputSection" class="container mx-auto max-w-4xl py-10 px-4 hidden">
         <div class="flex items-center justify-between mb-6">
@@ -487,7 +559,6 @@
             </button>
         </div>
     </div>
-
     <!-- Seragam Application Screen (Hidden by default) -->
     <div id="seragamApplication" class="container mx-auto max-w-6xl py-16 px-4 hidden">
         <div class="flex items-center justify-between mb-6">
@@ -537,7 +608,6 @@
             </button>
         </div>
     </div>
-
     <!-- Seragam Form Container (Hidden by default) -->
     <div class="container mx-auto max-w-4xl py-16 px-4" id="formContainer" style="display: none;">
         <!-- Form Cari Data PO -->
@@ -577,7 +647,6 @@
                 </button>
             </div>
         </div>
-
         <!-- Form Data Seragam -->
         <div class="bg-white rounded-2xl shadow-2xl p-8 mb-10" id="box-seragam" style="display: none;" data-aos="fade-up">
             <div class="flex items-center justify-between mb-6">
@@ -658,7 +727,6 @@
                 </button>
             </div>
         </div>
-
         <!-- Form Data PO_Seragam -->
         <div class="bg-white rounded-2xl shadow-2xl p-8 mb-10" id="box-po" style="display: none;" data-aos="fade-up">
             <div class="flex items-center justify-between mb-6">
@@ -717,7 +785,6 @@
                 </button>
             </div>
         </div>
-
         <!-- Form Surat Jalan -->
         <div class="bg-white rounded-2xl shadow-2xl p-8 mb-10" id="box-surat" style="display: none;" data-aos="fade-up">
             <div class="flex items-center justify-between mb-6">
@@ -800,7 +867,6 @@
             </div>
         </div>
     </div>
-
     <script>
         // Inisialisasi AOS
         document.addEventListener('DOMContentLoaded', function () {
@@ -810,11 +876,9 @@
                 once: true
             });
         });
-
         // Google Apps Script URLs
         const scriptURL = "https://script.google.com/macros/s/AKfycbx7br5nZCfXW9xXqY2kZxhg72WxTsxYRAwNoH_UG2NGRo2_JPetYSMklLwmUYuMPT6M/exec";
-        const scriptUrl = "https://script.google.com/macros/s/AKfycbyJb9H68ev5ndTA-icTGN53x7NwAFRzA8Ny7yO0I4xru2JjpAMZ4L35VPCxu5SzSChf/exec";
-
+        const scriptUrl = "https://script.google.com/macros/s/AKfycbyezzdx3xEBF2AvP-tcSZVBBCXaBcdurjJsdj7zk7a_LAuBN2SjrNKkMDAePlOQ3JDz/exec";
         // Main navigation functions
         function showApplication(appType) {
             document.getElementById("mainSelectionScreen").style.display = "none";
@@ -826,7 +890,6 @@
                 AOS.refresh();
             }
         }
-
         function backToMainSelection() {
             // Hide all sections
             document.getElementById("mainSelectionScreen").style.display = "block";
@@ -837,7 +900,6 @@
             document.getElementById("formContainer").style.display = "none";
             AOS.refresh();
         }
-
         // HP Application functions
         function showHpSection(section) {
             document.getElementById("hpApplication").style.display = "none";
@@ -865,14 +927,12 @@
             }
             AOS.refresh();
         }
-
         function backToHpApplication() {
             document.getElementById("hpSearchSection").style.display = "none";
             document.getElementById("hpInputSection").style.display = "none";
             document.getElementById("hpApplication").style.display = "block";
             AOS.refresh();
         }
-
         // Seragam Application functions
         function navigateTo(formId) {
             document.getElementById("seragamApplication").style.display = "none";
@@ -885,7 +945,6 @@
             // Refresh AOS setelah navigasi
             AOS.refresh();
         }
-
         function backToSeragamApplication() {
             document.getElementById("formContainer").style.display = "none";
             document.getElementById("seragamApplication").style.display = "block";
@@ -893,7 +952,6 @@
             document.getElementById("menuSection").scrollIntoView({ behavior: 'smooth' });
             AOS.refresh();
         }
-
         // Notification function
         function showNotification(message, isSuccess = true) {
             const notification = $('#notification');
@@ -920,7 +978,6 @@
                 notification.addClass('translate-y-16').removeClass('notification-show');
             }, 5000);
         }
-
         // HP Application functions
         $(document).ready(function () {
             // Search button click handler
@@ -936,14 +993,15 @@
             
             // Form submission handler
             $('#formHP').submit(submitHpForm);
+            
+            // Status form submission handler
+            $('#statusForm').submit(updateHpStatus);
         });
-
         // Function to validate phone number
         function validatePhoneNumber(phone) {
             const phoneRegex = /^[0-9]{10,13}$/;
             return phoneRegex.test(phone.replace(/\D/g, ''));
         }
-
         // Function to search data by NPK
         function searchByNpk() {
             const npk = $('#searchNpk').val().trim();
@@ -974,6 +1032,8 @@
                 })
                 .then(data => {
                     if (Array.isArray(data) && data.length > 0) {
+                        // Simpan data hasil pencarian
+                        window.currentSearchData = data;
                         displaySearchResults(data);
                         showNotification(`Ditemukan ${data.length} data untuk NPK ${npk}`);
                     } else {
@@ -991,13 +1051,12 @@
                     $('#loadingSpinner').addClass('hidden');
                 });
         }
-
         // Display search results in table
         function displaySearchResults(data) {
             const resultsBody = $('#resultsBody');
             resultsBody.empty();
             
-            data.forEach(row => {
+            data.forEach((row, index) => {
                 resultsBody.append(`
                     <tr>
                         <td>${formatDateDisplay(row.tanggal)}</td>
@@ -1007,14 +1066,19 @@
                         <td>${row.tipehp || '-'}</td>
                         <td>${row.alamat || '-'}</td>
                         <td>${row.keterangan || '-'}</td>
-                        <td>${row.status || '-'}</td>
+                        <td><span class="status-badge ${getStatusClass(row.status)}">${row.status || '-'}</span></td>
+                        <td>
+                            <button onclick="openStatusModal(${index}, ${JSON.stringify(row).replace(/"/g, '&quot;')})" 
+                                    class="px-3 py-1 bg-blue-500 text-white text-sm rounded hover:bg-blue-600 transition">
+                                <i class="fas fa-edit mr-1"></i> Ubah Status
+                            </button>
+                        </td>
                     </tr>
                 `);
             });
             
             $('#searchResults').removeClass('hidden');
         }
-
         // Format date for display
         function formatDateDisplay(dateStr) {
             if (!dateStr || dateStr === '-') return '-';
@@ -1036,7 +1100,6 @@
             
             return dateStr;
         }
-
         // Format phone number for display
         function formatPhoneDisplay(phone) {
             if (!phone || phone === '-') return '-';
@@ -1051,7 +1114,6 @@
             
             return cleaned;
         }
-
         // Submit HP form data
         function submitHpForm(e) {
             e.preventDefault();
@@ -1156,13 +1218,108 @@
                 $('#loadingSpinner').addClass('hidden');
             });
         }
-
         // Format phone number for input field
         function formatPhoneInput(phone) {
             if (!phone) return '';
             return phone.replace(/\D/g, '');
         }
-
+        
+        // Fungsi untuk menampilkan modal ubah status
+        function openStatusModal(index, data) {
+            const modal = document.getElementById('statusModal');
+            document.getElementById('statusId').value = data.id || '';
+            document.getElementById('statusRowNumber').value = index;
+            document.getElementById('statusNpk').value = data.npk || '-';
+            document.getElementById('statusTipeHp').value = data.tipehp || '-';
+            document.getElementById('newStatus').value = data.status || '';
+            
+            modal.classList.remove('hidden');
+        }
+        
+        // Fungsi untuk menutup modal
+        function closeStatusModal() {
+            document.getElementById('statusModal').classList.add('hidden');
+        }
+        
+        // Fungsi untuk mendapatkan kelas status
+        function getStatusClass(status) {
+            switch(status) {
+                case 'VERIFIKASI':
+                    return 'status-verification';
+                case 'OK':
+                    return 'status-ok';
+                case 'NO ACC':
+                    return 'status-no-acc';
+                case 'CANCEL':
+                    return 'status-cancel';
+                default:
+                    return 'bg-gray-100 text-gray-800';
+            }
+        }
+        
+        // Fungsi untuk update status HP
+        function updateHpStatus(e) {
+            e.preventDefault();
+            
+            const rowNumber = $('#statusRowNumber').val();
+            const newStatus = $('#newStatus').val();
+            const npk = $('#statusNpk').val();
+            const tipehp = $('#statusTipeHp').val();
+            
+            if (!newStatus) {
+                showNotification('Harap pilih status baru', false);
+                return;
+            }
+            
+            // Tampilkan loading spinner
+            $('#loadingSpinner').removeClass('hidden');
+            
+            // Siapkan data untuk dikirim
+            const formData = new FormData();
+            formData.append('action', 'updateStatus');
+            formData.append('npk', npk);
+            formData.append('tipehp', tipehp);
+            formData.append('status', newStatus);
+            
+            // Kirim data ke server
+            fetch(scriptUrl, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Gagal menghubungi server');
+                }
+                return response.json();
+            })
+            .then(result => {
+                if (result.error) {
+                    throw new Error(result.error);
+                }
+                
+                // Update data di array
+                if (window.currentSearchData && window.currentSearchData[rowNumber]) {
+                    window.currentSearchData[rowNumber].status = newStatus;
+                    
+                    // Perbarui tampilan tabel
+                    displaySearchResults(window.currentSearchData);
+                }
+                
+                // Tutup modal
+                closeStatusModal();
+                
+                showNotification('Status berhasil diperbarui!');
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showNotification('Gagal memperbarui status: ' + error.message, false);
+            })
+            .finally(() => {
+                // Sembunyikan loading spinner
+                $('#loadingSpinner').addClass('hidden');
+            });
+        }
+        
         // Seragam Application functions
         document.getElementById('form-seragam').addEventListener('submit', async function (e) {
             e.preventDefault();
@@ -1185,7 +1342,6 @@
                 document.getElementById('loadingSpinner').classList.add('hidden');
             }
         });
-
         document.getElementById('form-po').addEventListener('submit', async function (e) {
             e.preventDefault();
             const notif = document.getElementById('notif-po');
@@ -1207,7 +1363,6 @@
                 document.getElementById('loadingSpinner').classList.add('hidden');
             }
         });
-
         document.getElementById('form-search').addEventListener('submit', async function (e) {
             e.preventDefault();
             const notif = document.getElementById('notif-search');
@@ -1254,7 +1409,6 @@
                 document.getElementById('loadingSpinner').classList.add('hidden');
             }
         });
-
         function buatInputBarang() {
             const jumlah = document.querySelector('input[name="jumlahBarang"]').value;
             const container = document.getElementById('barangInputs');
@@ -1289,7 +1443,6 @@
                     </div>`;
             }
         }
-
         function openPrintWindow(suratData) {
             const printWindow = window.open('', '_blank');
             const printDocument = printWindow.document;
@@ -1399,7 +1552,6 @@
                             </p>
                         </div>
                     </div>
-
                     <table style="width: 30%; border-collapse: collapse; border: 1px solid black; margin-top: 20px;">
                         <tr>
                             <td colspan="4" class="alamat center" style="border: 1px solid black; padding: 5px;">Alamat Pengiriman</td>
@@ -1414,7 +1566,6 @@
                             <td colspan="4" style="border: 1px solid black; padding: 5px;">Kota Jakarta Pusat - 10510</td>
                         </tr>
                     </table>
-
                     <table style="width: 100%; border-collapse: collapse; border: 1px solid black; margin-top: 20px;">
                         <tr>
                             <td colspan="5" style="border: 1px solid black; padding: 5px;">Harap dikirimkan barang-barang berikut ini:</td>
@@ -1448,7 +1599,6 @@
                             </td>
                         </tr>
                     </table>
-
                     <script>
                         window.onload = function() {
                             setTimeout(function() {
@@ -1461,7 +1611,6 @@
             );
             printDocument.close();
         }
-
         function printSurat() {
             const form = document.querySelector('#box-surat form');
             if (!form) {
@@ -1471,7 +1620,14 @@
             const nomor = form.nomor.value;
             const tanggalInput = form.tanggal.value;
             const user = form.user.value;
-            const no_po = form.no_po ? form.no_po.value : "";
+            let noPoInput = form.querySelector('input[name="no_po"]');
+            if (!noPoInput) {
+                noPoInput = document.createElement('input');
+                noPoInput.type = 'hidden';
+                noPoInput.name = 'no_po';
+                form.appendChild(noPoInput);
+            }
+            const no_po = noPoInput.value;
             const jumlah = parseInt(form.jumlahBarang.value);
             if (!nomor || !tanggalInput || !user || isNaN(jumlah) || jumlah <= 0) {
                 alert("Harap isi semua field yang diperlukan dan buat form barang terlebih dahulu.");
@@ -1510,7 +1666,6 @@
             };
             openPrintWindow(suratData);
         }
-
         document.getElementById("suratForm").addEventListener("submit", function (e) {
             e.preventDefault();
             const form = e.target;
