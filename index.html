@@ -1,927 +1,1606 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
-  <meta charset="UTF-8">
-  <title>Aplikasi Koperasi Sigap Nusantara</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- AOS Library -->
-  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            'poppins': ['Poppins', 'sans-serif']
-          },
-          colors: {
-            'primary': '#FFD700',
-            'secondary': '#FFC300',
-            'accent': '#FFB347',
-            'success': '#28a745',
-            'warning': '#ffc107',
-            'danger': '#dc3545',
-            'info': '#17a2b8'
-          }
+    <meta charset="UTF-8">
+    <title>Aplikasi Koperasi Sigap Nusantara</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'poppins': ['Poppins', 'sans-serif']
+                    },
+                    colors: {
+                        'primary': '#FFD700',
+                        'secondary': '#FFC300',
+                        'accent': '#FFB347',
+                        'success': '#28a745',
+                        'warning': '#ffc107',
+                        'danger': '#dc3545',
+                        'info': '#17a2b8'
+                    }
+                }
+            }
         }
-      }
-    }
-  </script>
-
-  <style>
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #ffffff 0%, #FFD700 100%);
-      min-height: 100vh;
-    }
-
-    .card-hover {
-      transition: all 0.3s ease-in-out;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-    }
-
-    .card-hover:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-    }
-
-    .btn-animated {
-      position: relative;
-      overflow: hidden;
-      transition: all 0.3s ease;
-    }
-
-    .btn-animated::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-      transition: 0.5s;
-    }
-
-    .btn-animated:hover::before {
-      left: 100%;
-    }
-
-    .pulse {
-      animation: pulse 2s infinite;
-    }
-
-    @keyframes pulse {
-      0% {
-        transform: scale(1);
-        box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.7);
-      }
-
-      70% {
-        transform: scale(1.05);
-        box-shadow: 0 0 0 15px rgba(255, 215, 0, 0);
-      }
-
-      100% {
-        transform: scale(1);
-        box-shadow: 0 0 0 0 rgba(255, 215, 0, 0);
-      }
-    }
-
-    @media print {
-      body * {
-        visibility: hidden;
-      }
-
-      #outputSection,
-      #outputSection * {
-        visibility: visible;
-      }
-
-      #outputSection {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-      }
-    }
-  </style>
+    </script>
+    
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #ffffff 0%, #FFD700 100%);
+            min-height: 100vh;
+        }
+        
+        .btn-animated {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-animated::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: 0.5s;
+        }
+        
+        .btn-animated:hover::before {
+            left: 100%;
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+        
+        .notification-show {
+            transform: translateY(0) !important;
+        }
+        
+        .animate-spin {
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        
+        .select2-container--bootstrap .select2-selection {
+            height: auto;
+            padding: 0.75rem 1rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.75rem;
+            background-color: white;
+        }
+        
+        .select2-container--bootstrap .select2-dropdown {
+            border-radius: 0.75rem;
+        }
+        
+        .search-btn {
+            position: absolute;
+            right: 0.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        
+        .data-table th,
+        .data-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        
+        .data-table th {
+            background-color: #f2f2f2;
+        }
+        
+        .data-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        .data-table tr:hover {
+            background-color: #f0f0f0;
+        }
+        
+        .error-input {
+            border-color: #ef4444 !important;
+        }
+        
+        .error-message {
+            color: #ef4444;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+        
+        .selection-card {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .selection-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            #outputSection,
+            #outputSection * {
+                visibility: visible;
+            }
+            #outputSection {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+            }
+        }
+    </style>
 </head>
-
 <body class="font-poppins">
-  <!-- Navbar -->
-  <nav class="bg-white shadow-lg" data-aos="fade-down">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between h-16">
+    <!-- Loading Spinner -->
+    <div id="loadingSpinner" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white p-8 rounded-xl shadow-2xl text-center">
+            <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-yellow-500 mx-auto mb-4"></div>
+            <p class="text-lg font-semibold text-gray-800">Memproses...</p>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div id="notification" class="fixed bottom-4 right-4 px-6 py-3 rounded-lg shadow-lg transform translate-y-16 transition-transform duration-300 z-50 hidden">
         <div class="flex items-center">
-          <div class="flex-shrink-0 flex items-center">
-            <i class="fas fa-building text-yellow-500 text-2xl mr-2"></i>
-            <span class="font-bold text-xl text-gray-800">Koperasi Sigap</span>
-          </div>
+            <i id="notificationIcon" class="fas fa-check-circle mr-2"></i>
+            <span id="notificationText">Pesan notifikasi</span>
         </div>
-        <div class="hidden md:flex items-center space-x-4">
-        </div>
-      </div>
-    </div>
-  </nav>
-
-  <!-- Hero Section -->
-  <div class="py-20 px-4 bg-gradient-to-r from-yellow-100 to-yellow-300" id="heroSection">
-    <div class="max-w-4xl mx-auto text-center text-gray-800" data-aos="zoom-in">
-      <h1 class="text-4xl md:text-6xl font-bold mb-6">SERAGAM KOPERASI SIGAP</h1>
-           <button onclick="startApplication()" id="startButton"
-        class="btn-animated bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-white font-bold py-4 px-8 rounded-full text-lg shadow-xl pulse">
-        <i class="fas fa-rocket mr-2"></i>Mulai Sekarang
-      </button>
-    </div>
-  </div>
-
-  <!-- Landing Page -->
-  <div class="container mx-auto max-w-6xl py-16 px-4" id="landingPage" style="display: none;">
-    <div class="text-center mb-16" data-aos="fade-up" id="menuSection">
-      <h2 class="text-3xl font-bold text-gray-800 mb-8">Silakan pilih menu di bawah:</h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <button onclick="navigateTo('box-search')"
-          class="btn-animated bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-white font-bold py-5 px-6 rounded-xl shadow-lg flex flex-col items-center justify-center transition-all duration-300 transform hover:scale-105">
-          <i class="fas fa-search text-3xl mb-3"></i>
-          <span class="text-lg">Cari Data PO</span>
-        </button>
-
-        <button onclick="navigateTo('box-seragam')"
-          class="btn-animated bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 text-white font-bold py-5 px-6 rounded-xl shadow-lg flex flex-col items-center justify-center transition-all duration-300 transform hover:scale-105">
-          <i class="fas fa-file-invoice text-3xl mb-3"></i>
-          <span class="text-lg">Input Data Seragam</span>
-        </button>
-
-        <button onclick="navigateTo('box-po')"
-          class="btn-animated bg-gradient-to-r from-yellow-600 to-yellow-700 hover:from-yellow-700 hover:to-yellow-800 text-white font-bold py-5 px-6 rounded-xl shadow-lg flex flex-col items-center justify-center transition-all duration-300 transform hover:scale-105">
-          <i class="fas fa-receipt text-3xl mb-3"></i>
-          <span class="text-lg">Input PO_Seragam</span>
-        </button>
-
-        <button onclick="navigateTo('box-surat')"
-          class="btn-animated bg-gradient-to-r from-yellow-700 to-yellow-800 hover:from-yellow-800 hover:to-yellow-900 text-white font-bold py-5 px-6 rounded-xl shadow-lg flex flex-col items-center justify-center transition-all duration-300 transform hover:scale-105">
-          <i class="fas fa-truck text-3xl mb-3"></i>
-          <span class="text-lg">Buat Surat Jalan</span>
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Semua Form -->
-  <div class="container mx-auto max-w-4xl py-16 px-4" id="formContainer" style="display: none;">
-
-    <!-- Form Cari Data PO -->
-    <div class="bg-white rounded-2xl shadow-2xl p-8 mb-10" id="box-search" style="display: none;" data-aos="fade-up">
-      <div class="flex items-center mb-6">
-        <i class="fas fa-search text-yellow-500 text-2xl mr-3"></i>
-        <h2 class="text-2xl font-bold text-gray-800">Cari Data PO</h2>
-      </div>
-
-      <div id="notif-search" class="text-center font-bold mb-6 p-3 rounded-lg"></div>
-
-      <form id="form-search" class="space-y-6">
-        <div>
-          <label class="block text-gray-700 font-semibold mb-2">Nomor PO:</label>
-          <div class="relative">
-            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <i class="fas fa-hashtag text-gray-400"></i>
-            </div>
-            <input type="text" name="search_po" required
-              class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-yellow-500 focus:border-transparent shadow-sm">
-          </div>
-        </div>
-
-        <button type="submit"
-          class="w-full bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-white font-bold py-3 px-4 rounded-xl shadow-lg transition-all duration-300 transform hover:scale-105">
-          <i class="fas fa-search mr-2"></i> Cari PO
-        </button>
-      </form>
-
-      <div id="search-results" class="mt-8 space-y-4"></div>
-
-      <button
-        class="mt-8 w-full bg-gradient-to-r from-gray-500 to-gray-600 hover:from-gray-600 hover:to-gray-700 text-white font-bold py-3 px-4 rounded-xl shadow-lg transition-all duration-300 flex items-center justify-center"
-        onclick="backToHome()">
-        <i class="fas fa-arrow-left mr-2"></i> Kembali ke Menu Awal
-      </button>
     </div>
 
-    <!-- Form Data Seragam -->
-    <div class="bg-white rounded-2xl shadow-2xl p-8 mb-10" id="box-seragam" style="display: none;" data-aos="fade-up">
-      <div class="flex items-center mb-6">
-        <i class="fas fa-file-invoice text-yellow-500 text-2xl mr-3"></i>
-        <h2 class="text-2xl font-bold text-gray-800">Form Data Seragam</h2>
-      </div>
-
-      <div id="notif-seragam" class="text-center font-bold mb-6 p-3 rounded-lg"></div>
-
-      <form id="form-seragam" class="space-y-6">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div>
-            <label class="block text-gray-700 font-semibold mb-2">Tanggal:</label>
-            <div class="relative">
-              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <i class="fas fa-calendar-alt text-gray-400"></i>
-              </div>
-              <input type="date" name="tanggal" required
-                class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-yellow-500 focus:border-transparent shadow-sm">
-            </div>
-          </div>
-
-          <div>
-            <label class="block text-gray-700 font-semibold mb-2">No. Invoice:</label>
-            <div class="relative">
-              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <i class="fas fa-file-invoice text-gray-400"></i>
-              </div>
-              <input type="text" name="no_inv" required
-                class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-yellow-500 focus:border-transparent shadow-sm">
-            </div>
-          </div>
+    <!-- Main Selection Screen -->
+    <div id="mainSelectionScreen" class="container mx-auto max-w-4xl py-10 px-4">
+        <div class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-6">Aplikasi Koperasi Sigap Nusantara</h1>
+            <p class="text-lg text-gray-600">Silakan pilih aplikasi yang Anda butuhkan</p>
         </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div>
-            <label class="block text-gray-700 font-semibold mb-2">No. PO:</label>
-            <div class="relative">
-              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <i class="fas fa-receipt text-gray-400"></i>
-              </div>
-              <input type="text" name="no_po" required
-                class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-yellow-500 focus:border-transparent shadow-sm">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="selection-card bg-white rounded-2xl shadow-xl p-8 text-center" 
+                 onclick="showApplication('hp')" 
+                 data-aos="fade-right">
+                <div class="bg-yellow-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i class="fas fa-mobile-alt text-yellow-500 text-3xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 mb-3">Aplikasi HP</h3>
+                <p class="text-gray-600 mb-6">Manajemen data HP karyawan</p>
+                <button class="bg-yellow-500 text-white px-6 py-2 rounded-lg hover:bg-yellow-600 transition">
+                    Pilih <i class="fas fa-arrow-right ml-2"></i>
+                </button>
             </div>
-          </div>
-
-          <div>
-            <label class="block text-gray-700 font-semibold mb-2">Nominal:</label>
-            <div class="relative">
-              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <i class="fas fa-money-bill-wave text-gray-400"></i>
-              </div>
-              <input type="number" name="nominal" required
-                class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-yellow-500 focus:border-transparent shadow-sm">
+            <div class="selection-card bg-white rounded-2xl shadow-xl p-8 text-center" 
+                 onclick="showApplication('seragam')" 
+                 data-aos="fade-left">
+                <div class="bg-yellow-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i class="fas fa-tshirt text-yellow-500 text-3xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 mb-3">Aplikasi Seragam</h3>
+                <p class="text-gray-600 mb-6">Manajemen data seragam karyawan</p>
+                <button class="bg-yellow-500 text-white px-6 py-2 rounded-lg hover:bg-yellow-600 transition">
+                    Pilih <i class="fas fa-arrow-right ml-2"></i>
+                </button>
             </div>
-          </div>
         </div>
-
-        <div>
-          <label class="block text-gray-700 font-semibold mb-2">User:</label>
-          <div class="relative">
-            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <i class="fas fa-user text-gray-400"></i>
-            </div>
-            <input type="text" name="user" required
-              class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-yellow-500 focus:border-transparent shadow-sm">
-          </div>
-        </div>
-
-        <button type="submit"
-          class="w-full bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 text-white font-bold py-3 px-4 rounded-xl shadow-lg transition-all duration-300 transform hover:scale-105">
-          <i class="fas fa-paper-plane mr-2"></i> Kirim Data Seragam
-        </button>
-      </form>
-
-      <button
-        class="mt-8 w-full bg-gradient-to-r from-gray-500 to-gray-600 hover:from-gray-600 hover:to-gray-700 text-white font-bold py-3 px-4 rounded-xl shadow-lg transition-all duration-300 flex items-center justify-center"
-        onclick="backToHome()">
-        <i class="fas fa-arrow-left mr-2"></i> Kembali ke Menu Awal
-      </button>
     </div>
 
-    <!-- Form Data PO_Seragam -->
-    <div class="bg-white rounded-2xl shadow-2xl p-8 mb-10" id="box-po" style="display: none;" data-aos="fade-up">
-      <div class="flex items-center mb-6">
-        <i class="fas fa-receipt text-yellow-600 text-2xl mr-3"></i>
-        <h2 class="text-2xl font-bold text-gray-800">Form Data PO_Seragam</h2>
-      </div>
-
-      <div id="notif-po" class="text-center font-bold mb-6 p-3 rounded-lg"></div>
-
-      <form id="form-po" class="space-y-6">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div>
-            <label class="block text-gray-700 font-semibold mb-2">Tanggal:</label>
-            <div class="relative">
-              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <i class="fas fa-calendar-alt text-gray-400"></i>
-              </div>
-              <input type="date" name="tanggal" required
-                class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-yellow-600 focus:border-transparent shadow-sm">
+    <!-- HP Application Screen (Hidden by default) -->
+    <div id="hpApplication" class="container mx-auto max-w-4xl py-10 px-4 hidden">
+        <div class="flex items-center justify-between mb-6">
+            <div class="flex items-center">
+                <button onclick="backToMainSelection()" class="mr-4 text-yellow-500 hover:text-yellow-600">
+                    <i class="fas fa-arrow-left text-2xl"></i>
+                </button>
+                <h2 class="text-2xl font-bold text-gray-800">
+                    <i class="fas fa-mobile-alt text-yellow-500 text-2xl mr-3"></i> Aplikasi HP Karyawan
+                </h2>
             </div>
-          </div>
-
-          <div>
-            <label class="block text-gray-700 font-semibold mb-2">No. BK:</label>
-            <div class="relative">
-              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <i class="fas fa-file-alt text-gray-400"></i>
-              </div>
-              <input type="text" name="no_bk" required
-                class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-yellow-600 focus:border-transparent shadow-sm">
-            </div>
-          </div>
+            <button onclick="backToMainSelection()" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition">
+                <i class="fas fa-home mr-2"></i> Menu Utama
+            </button>
         </div>
-
-        <div>
-          <label class="block text-gray-700 font-semibold mb-2">No. PO:</label>
-          <div class="relative">
-            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <i class="fas fa-receipt text-gray-400"></i>
-            </div>
-            <input type="text" name="no_po" required
-              class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-yellow-600 focus:border-transparent shadow-sm">
-          </div>
+        
+        <div class="text-center mb-12">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
+                <i class="fas fa-mobile-alt text-yellow-500 mr-3"></i> Sistem Data HP Karyawan
+            </h1>
+            <p class="text-lg text-gray-600">Koperasi Sigap Nusantara</p>
         </div>
-
-        <button type="submit"
-          class="w-full bg-gradient-to-r from-yellow-600 to-yellow-700 hover:from-yellow-700 hover:to-yellow-800 text-white font-bold py-3 px-4 rounded-xl shadow-lg transition-all duration-300 transform hover:scale-105">
-          <i class="fas fa-paper-plane mr-2"></i> Kirim Data PO_Seragam
-        </button>
-      </form>
-
-      <button
-        class="mt-8 w-full bg-gradient-to-r from-gray-500 to-gray-600 hover:from-gray-600 hover:to-gray-700 text-white font-bold py-3 px-4 rounded-xl shadow-lg transition-all duration-300 flex items-center justify-center"
-        onclick="backToHome()">
-        <i class="fas fa-arrow-left mr-2"></i> Kembali ke Menu Awal
-      </button>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="selection-card bg-white rounded-2xl shadow-xl p-8 text-center" 
+                 onclick="showHpSection('search')" 
+                 data-aos="fade-right">
+                <div class="bg-yellow-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i class="fas fa-search text-yellow-500 text-3xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 mb-3">Pencarian Data HP</h3>
+                <p class="text-gray-600 mb-6">Cari data HP karyawan berdasarkan NPK</p>
+                <button class="bg-yellow-500 text-white px-6 py-2 rounded-lg hover:bg-yellow-600 transition">
+                    Pilih <i class="fas fa-arrow-right ml-2"></i>
+                </button>
+            </div>
+            <div class="selection-card bg-white rounded-2xl shadow-xl p-8 text-center" 
+                 onclick="showHpSection('input')" 
+                 data-aos="fade-left">
+                <div class="bg-yellow-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i class="fas fa-edit text-yellow-500 text-3xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 mb-3">Input Data HP Baru</h3>
+                <p class="text-gray-600 mb-6">Masukkan data HP karyawan baru</p>
+                <button class="bg-yellow-500 text-white px-6 py-2 rounded-lg hover:bg-yellow-600 transition">
+                    Pilih <i class="fas fa-arrow-right ml-2"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Back to Previous Menu Button -->
+        <div class="mt-12 text-center">
+            <button onclick="backToMainSelection()" class="bg-gray-500 text-white px-6 py-3 rounded-lg hover:bg-gray-600 transition">
+                <i class="fas fa-arrow-left mr-2"></i> Kembali ke Menu Sebelumnya
+            </button>
+        </div>
     </div>
 
-    <!-- Form Surat Jalan -->
-    <div class="bg-white rounded-2xl shadow-2xl p-8 mb-10" id="box-surat" style="display: none;" data-aos="fade-up">
-      <div class="flex items-center mb-6">
-        <i class="fas fa-truck text-yellow-700 text-2xl mr-3"></i>
-        <h2 class="text-2xl font-bold text-gray-800">Form Input Surat Jalan</h2>
-      </div>
-
-      <form id="suratForm" class="space-y-6">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div>
-            <label class="block text-gray-700 font-semibold mb-2">Nomor Surat</label>
-            <div class="relative">
-              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <i class="fas fa-hashtag text-gray-400"></i>
-              </div>
-              <input type="text" name="nomor" required
-                class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-yellow-700 focus:border-transparent shadow-sm">
+    <!-- HP Search Section (Hidden by default) -->
+    <div id="hpSearchSection" class="container mx-auto max-w-4xl py-10 px-4 hidden">
+        <div class="flex items-center justify-between mb-6">
+            <div class="flex items-center">
+                <button onclick="backToHpApplication()" class="mr-4 text-yellow-500 hover:text-yellow-600">
+                    <i class="fas fa-arrow-left text-2xl"></i>
+                </button>
+                <h2 class="text-2xl font-bold text-gray-800">
+                    <i class="fas fa-search text-yellow-500 text-2xl mr-3"></i> Pencarian Data HP Karyawan
+                </h2>
             </div>
-          </div>
-
-          <div>
-            <label class="block text-gray-700 font-semibold mb-2">Tanggal</label>
-            <div class="relative">
-              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <i class="fas fa-calendar-alt text-gray-400"></i>
-              </div>
-              <input type="date" name="tanggal" required
-                class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-yellow-700 focus:border-transparent shadow-sm">
-            </div>
-          </div>
+            <button onclick="backToMainSelection()" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition">
+                <i class="fas fa-home mr-2"></i> Menu Utama
+            </button>
         </div>
-
-        <div>
-          <label class="block text-gray-700 font-semibold mb-2">User</label>
-          <div class="relative">
-            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <i class="fas fa-user text-gray-400"></i>
+        
+        <div class="bg-white rounded-2xl shadow-2xl p-8 mb-10" data-aos="fade-up">
+            <div class="mb-4">
+                <label class="block text-gray-700 font-semibold mb-2">Cari berdasarkan NPK:</label>
+                <div class="relative flex">
+                    <input type="text" id="searchNpk" class="w-full px-4 py-3 border rounded-l-xl" placeholder="Masukkan NPK">
+                    <button id="searchBtn" class="bg-yellow-500 text-white px-5 rounded-r-xl hover:bg-yellow-600 transition">
+                        <i class="fas fa-search"></i> Cari
+                    </button>
+                </div>
+                <div id="searchNpkError" class="error-message hidden">NPK harus diisi</div>
             </div>
-            <input type="text" name="user" required
-              class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-yellow-700 focus:border-transparent shadow-sm">
-          </div>
-        </div>
-
-        <div>
-          <label class="block text-gray-700 font-semibold mb-2">Jumlah Barang</label>
-          <div class="relative">
-            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <i class="fas fa-boxes text-gray-400"></i>
+            <div id="searchResults" class="mt-6 hidden">
+                <div class="overflow-x-auto">
+                    <table class="data-table w-full">
+                        <thead>
+                            <tr>
+                                <th>Tanggal</th>
+                                <th>NPK</th>
+                                <th>No. Telp</th>
+                                <th>Cicilan</th>
+                                <th>Tipe HP</th>
+                                <th>Alamat Kirim</th>
+                                <th>Keterangan</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="resultsBody"></tbody>
+                    </table>
+                </div>
             </div>
-            <input type="number" name="jumlahBarang" min="1" required
-              class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-yellow-700 focus:border-transparent shadow-sm">
-          </div>
         </div>
-
-        <button type="button" onclick="buatInputBarang()"
-          class="w-full bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-white font-bold py-3 px-4 rounded-xl shadow-lg transition-all duration-300">
-          <i class="fas fa-plus-circle mr-2"></i> Buat Form Barang
-        </button>
-
-        <div id="barangInputs" class="space-y-6"></div>
-
-        <button type="submit"
-          class="w-full bg-gradient-to-r from-yellow-700 to-yellow-800 hover:from-yellow-800 hover:to-yellow-900 text-white font-bold py-3 px-4 rounded-xl shadow-lg transition-all duration-300">
-          <i class="fas fa-file-contract mr-2"></i> Tampilkan Surat Jalan
-        </button>
-      </form>
-
-      <div class="text-center mt-8">
-        <button id="printButton" onclick="printSurat()"
-          class="hidden bg-gradient-to-r from-yellow-600 to-yellow-700 hover:from-yellow-700 hover:to-yellow-800 text-white font-bold py-3 px-6 rounded-xl shadow-lg transition-all duration-300">
-          <i class="fas fa-print mr-2"></i> Cetak / Simpan PDF
-        </button>
-      </div>
-
-      <div id="outputSection" class="mt-10 p-6 bg-yellow-50 rounded-xl border border-yellow-200">
-        <div id="output"></div>
-      </div>
-
-      <button
-        class="mt-8 w-full bg-gradient-to-r from-gray-500 to-gray-600 hover:from-gray-600 hover:to-gray-700 text-white font-bold py-3 px-4 rounded-xl shadow-lg transition-all duration-300 flex items-center justify-center"
-        onclick="backToHome()">
-        <i class="fas fa-arrow-left mr-2"></i> Kembali ke Menu Awal
-      </button>
+        
+        <!-- Back to Previous Menu Button -->
+        <div class="mt-8 text-center">
+            <button onclick="backToHpApplication()" class="bg-gray-500 text-white px-6 py-3 rounded-lg hover:bg-gray-600 transition">
+                <i class="fas fa-arrow-left mr-2"></i> Kembali ke Menu Sebelumnya
+            </button>
+        </div>
     </div>
-  </div>
 
-  <!-- Footer Baru (Sederhana) -->
-  <footer class="bg-gray-800 text-white py-8">
-    <div class="container mx-auto max-w-6xl px-4 text-center">
-      <p class="text-gray-400">&copy; 2023 Koperasi Sigap Nusantara. Hak Cipta Dilindungi.</p>
-    </div>
-  </footer>
-
-  <script>
-    // Inisialisasi AOS
-    document.addEventListener('DOMContentLoaded', function () {
-      AOS.init({
-        duration: 1000,
-        easing: 'ease-out-cubic',
-        once: true
-      });
-    });
-
-    function startApplication() {
-      // Sembunyikan tombol Mulai Sekarang
-      document.getElementById('startButton').style.display = 'none';
-      // Perkecil hero section
-      document.getElementById('heroSection').classList.add('py-10');
-      // Tampilkan menu utama
-      document.getElementById('landingPage').style.display = 'block';
-      // Scroll ke menu
-      document.getElementById('menuSection').scrollIntoView({ behavior: 'smooth' });
-    }
-
-    // Updated script URL
-    const scriptURL = "https://script.google.com/macros/s/AKfycbx7br5nZCfXW9xXqY2kZxhg72WxTsxYRAwNoH_UG2NGRo2_JPetYSMklLwmUYuMPT6M/exec";
-
-    function navigateTo(formId) {
-      document.getElementById("landingPage").style.display = "none";
-      document.getElementById("formContainer").style.display = "block";
-      const sections = ["box-search", "box-seragam", "box-po", "box-surat"];
-      sections.forEach(id => document.getElementById(id).style.display = "none");
-      document.getElementById(formId).style.display = "block";
-      // Scroll to top
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      // Refresh AOS setelah navigasi
-      AOS.refresh();
-    }
-
-    function backToHome() {
-      document.getElementById("formContainer").style.display = "none";
-      document.getElementById("landingPage").style.display = "block";
-      // Scroll to menu section
-      document.getElementById("menuSection").scrollIntoView({ behavior: 'smooth' });
-    }
-
-    document.getElementById('form-seragam').addEventListener('submit', async function (e) {
-      e.preventDefault();
-      const notif = document.getElementById('notif-seragam');
-      const formData = new FormData(e.target);
-      try {
-        await fetch(scriptURL, { method: "POST", body: formData });
-        notif.textContent = "✅ Data Seragam berhasil dikirim!";
-        notif.className = "text-center font-bold mb-6 p-3 rounded-lg bg-green-100 text-green-700";
-        e.target.reset();
-      } catch (err) {
-        notif.textContent = "❌ Gagal mengirim data.";
-        notif.className = "text-center font-bold mb-6 p-3 rounded-lg bg-red-100 text-red-700";
-      }
-    });
-
-    document.getElementById('form-po').addEventListener('submit', async function (e) {
-      e.preventDefault();
-      const notif = document.getElementById('notif-po');
-      const formData = new FormData(e.target);
-      try {
-        await fetch(scriptURL, { method: "POST", body: formData });
-        notif.textContent = "✅ Data PO_Seragam berhasil dikirim!";
-        notif.className = "text-center font-bold mb-6 p-3 rounded-lg bg-green-100 text-green-700";
-        e.target.reset();
-      } catch (err) {
-        notif.textContent = "❌ Gagal mengirim data.";
-        notif.className = "text-center font-bold mb-6 p-3 rounded-lg bg-red-100 text-red-700";
-      }
-    });
-
-    document.getElementById('form-search').addEventListener('submit', async function (e) {
-      e.preventDefault();
-      const notif = document.getElementById('notif-search');
-      const resultsContainer = document.getElementById('search-results');
-      const formData = new FormData(e.target);
-      notif.textContent = "🔍 Mencari data...";
-      notif.className = "text-center font-bold mb-6 p-3 rounded-lg bg-blue-100 text-blue-700";
-      resultsContainer.innerHTML = "";
-      try {
-        const response = await fetch(scriptURL, { method: "POST", body: formData });
-        const result = await response.json();
-        if (result.status === "success") {
-          notif.textContent = `✅ Ditemukan ${result.count} data`;
-          notif.className = "text-center font-bold mb-6 p-3 rounded-lg bg-green-100 text-green-700";
-          result.data.forEach(item => {
-            const div = document.createElement("div");
-            div.className = "bg-gray-50 p-5 rounded-xl border border-gray-200 shadow-sm";
-            div.innerHTML = 
-                `<div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                  <div><strong class="text-gray-700">No:</strong> <span class="text-gray-900">${item.no || "-"}</span></div>
-                  <div><strong class="text-gray-700">Tanggal:</strong> <span class="text-gray-900">${item.tanggal || "-"}</span></div>
-                  <div><strong class="text-gray-700">No. Invoice:</strong> <span class="text-gray-900">${item.no_inv || "-"}</span></div>
-                  <div><strong class="text-gray-700">No. PO:</strong> <span class="text-gray-900">${item.no_po || "-"}</span></div>
-                  <div><strong class="text-gray-700">Nominal:</strong> <span class="text-gray-900">${item.nominal ? Number(item.nominal).toLocaleString() : "-"}</span></div>
-                  <div><strong class="text-gray-700">DPP:</strong> <span class="text-gray-900">${item.dpp ? Number(item.dpp).toLocaleString() : "-"}</span></div>
-                  <div><strong class="text-gray-700">DPP9:</strong> <span class="text-gray-900">${item.dpp9 ? Number(item.dpp9).toLocaleString() : "-"}</span></div>
-                  <div><strong class="text-gray-700">User:</strong> <span class="text-gray-900">${item.user || "-"}</span></div>
-                </div>`;
-            resultsContainer.appendChild(div);
-          });
-        } else {
-          notif.textContent = result.message || "❌ Tidak ditemukan.";
-          notif.className = "text-center font-bold mb-6 p-3 rounded-lg bg-red-100 text-red-700";
-        }
-      } catch (err) {
-        notif.textContent = "❌ Gagal melakukan pencarian.";
-        notif.className = "text-center font-bold mb-6 p-3 rounded-lg bg-red-100 text-red-700";
-      }
-    });
-
-    function buatInputBarang() {
-      const jumlah = document.querySelector('input[name="jumlahBarang"]').value;
-      const container = document.getElementById('barangInputs');
-      container.innerHTML = "";
-      for (let i = 1; i <= jumlah; i++) {
-        container.innerHTML += 
-            `<div class="bg-yellow-50 p-5 rounded-xl border border-yellow-200">
-              <h3 class="font-bold text-yellow-700 mb-3 flex items-center">
-                <i class="fas fa-box mr-2"></i> Barang ${i}
-              </h3>
-              <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div class="md:col-span-2">
-                  <label class="block text-sm font-medium text-gray-700 mb-1">Nama Barang ${i}</label>
-                  <input type="text" name="barang${i}" required
-                         class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent">
+    <!-- HP Input Section (Hidden by default) -->
+    <div id="hpInputSection" class="container mx-auto max-w-4xl py-10 px-4 hidden">
+        <div class="flex items-center justify-between mb-6">
+            <div class="flex items-center">
+                <button onclick="backToHpApplication()" class="mr-4 text-yellow-500 hover:text-yellow-600">
+                    <i class="fas fa-arrow-left text-2xl"></i>
+                </button>
+                <h2 class="text-2xl font-bold text-gray-800">
+                    <i class="fas fa-mobile-alt text-yellow-500 text-2xl mr-3"></i> Form Input HP Karyawan
+                </h2>
+            </div>
+            <button onclick="backToMainSelection()" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition">
+                <i class="fas fa-home mr-2"></i> Menu Utama
+            </button>
+        </div>
+        <div class="bg-white rounded-2xl shadow-2xl p-8" data-aos="fade-up">
+            <form id="formHP" class="space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-gray-700 font-semibold mb-2">Tanggal:<span class="text-red-500">*</span></label>
+                        <input type="date" name="tanggal" id="tanggal" required class="w-full px-4 py-3 border rounded-xl">
+                        <div id="tanggalError" class="error-message hidden">Tanggal harus diisi</div>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 font-semibold mb-2">NPK:<span class="text-red-500">*</span></label>
+                        <input type="text" name="npk" id="npk" required class="w-full px-4 py-3 border rounded-xl">
+                        <div id="npkError" class="error-message hidden">NPK harus diisi</div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-gray-700 font-semibold mb-2">No. Telp:<span class="text-red-500">*</span></label>
+                        <input type="text" name="notelp" id="notelp" required class="w-full px-4 py-3 border rounded-xl" placeholder="Contoh: 081234567890">
+                        <div id="notelpError" class="error-message hidden">No. Telp harus diisi dan berupa angka</div>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 font-semibold mb-2">Cicilan:<span class="text-red-500">*</span></label>
+                        <input type="text" name="cicilan" id="cicilan" required class="w-full px-4 py-3 border rounded-xl">
+                        <div id="cicilanError" class="error-message hidden">Cicilan harus diisi</div>
+                    </div>
                 </div>
                 <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-1">Qty ${i}</label>
-                  <input type="number" name="qty${i}" required
-                         class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent">
+                    <label class="block text-gray-700 font-semibold mb-2">Tipe HP:<span class="text-red-500">*</span></label>
+                    <select id="tipehp" name="tipehp" class="w-full" required>
+                        <option value="">-- Pilih Tipe HP --</option>
+                        <option value="VIVO Y29 6/128">VIVO Y29 6/128</option>
+                        <option value="VIVO Y29 8/128">VIVO Y29 8/128</option>
+                        <option value="VIVO Y29 8/256">VIVO Y29 8/256</option>
+                        <option value="VIVO Y19S 6/128">VIVO Y19S 6/128</option>
+                        <option value="VIVO V40 LITE 8/128">VIVO V40 LITE 8/128</option>
+                        <option value="VIVO V40 LITE 8/256">VIVO V40 LITE 8/256</option>
+                        <option value="REDMI A5 4/128">REDMI A5 4/128</option>
+                        <option value="REDMI 14C 6/128">REDMI 14C 6/128</option>
+                        <option value="REDMI 14C 8/256">REDMI 14C 8/256</option>
+                        <option value="REDMI NOTE 14 8/128">REDMI NOTE 14 8/128</option>
+                        <option value="REDMI NOTE 14 8/256">REDMI NOTE 14 8/256</option>
+                        <option value="REDMI NOTE 14 8/256 5G">REDMI NOTE 14 8/256 5G</option>
+                        <option value="REDMI NOTE 14 12/512 5G">REDMI NOTE 14 12/512 5G</option>
+                        <option value="REDMI NOTE 14 PRO 8/256 5G">REDMI NOTE 14 PRO 8/256 5G</option>
+                        <option value="REDMI NOTE 14 PRO 12/512 5G">REDMI NOTE 14 PRO 12/512 5G</option>
+                        <option value="REDMI 13 8/128">REDMI 13 8/128</option>
+                        <option value="REDMI 13 8/256">REDMI 13 8/256</option>
+                        <option value="REDMI POCO PAD 8/256">REDMI POCO PAD 8/256</option>
+                        <option value="OPPO A60 8/128">OPPO A60 8/128</option>
+                        <option value="OPPO A60 8/256">OPPO A60 8/256</option>
+                        <option value="OPPO A3X 6/128">OPPO A3X 6/128</option>
+                        <option value="OPPO A3 PRO 8/256 5G">OPPO A3 PRO 8/256 5G</option>
+                        <option value="REALME C75 8/128">REALME C75 8/128</option>
+                        <option value="REALME C75 8/256">REALME C75 8/256</option>
+                        <option value="REALME C63 8/128">REALME C63 8/128</option>
+                        <option value="REALME 13 NFC 8/128">REALME 13 NFC 8/128</option>
+                        <option value="REALME 13 NFC 8/256">REALME 13 NFC 8/256</option>
+                        <option value="REALME NOTE 60 6/128">REALME NOTE 60 6/128</option>
+                        <option value="SAMSUNG A06 4/64">SAMSUNG A06 4/64</option>
+                        <option value="SAMSUNG A06 4/128">SAMSUNG A06 4/128</option>
+                        <option value="SAMSUNG A06 6/128">SAMSUNG A06 6/128</option>
+                        <option value="SAMSUNG A16 8/128">SAMSUNG A16 8/128</option>
+                        <option value="SAMSUNG A16 8/256">SAMSUNG A16 8/256</option>
+                        <option value="SAMSUNG A16 8/256 5G">SAMSUNG A16 8/256 5G</option>
+                        <option value="SAMSUNG A25 8/256 5G">SAMSUNG A25 8/256 5G</option>
+                        <option value="INFINIX SMART 9 4/128">INFINIX SMART 9 4/128</option>
+                        <option value="INFINIX HOT 50 6/128">INFINIX HOT 50 6/128</option>
+                        <option value="INFINIX HOT 50i 6/128">INFINIX HOT 50i 6/128</option>
+                        <option value="INFINIX HOT 50 PRO 8/256">INFINIX HOT 50 PRO 8/256</option>
+                        <option value="INFINIX HOT 50 PRO+ 8/256">INFINIX HOT 50 PRO+ 8/256</option>
+                        <option value="ITEL S25 8/128">ITEL S25 8/128</option>
+                        <option value="ITEL S25 ULTRA 8/256">ITEL S25 ULTRA 8/256</option>
+                        <option value="ITEL TAB ITEL VISTA 30 + KEYBOARD 4/128">ITEL TAB ITEL VISTA 30 + KEYBOARD 4/128</option>
+                        <option value="TECNO SPARK GO 1 4/128">TECNO SPARK GO 1 4/128</option>
+                        <option value="TECNO SPARK 30C 8/256">TECNO SPARK 30C 8/256</option>
+                        <option value="TECNO POVA 6 8/256">TECNO POVA 6 8/256</option>
+                        <option value="TECNO POVA 6 12/256">TECNO POVA 6 12/256</option>
+                        <option value="TECNO SPARK 30 PRO 8/128">TECNO SPARK 30 PRO 8/128</option>
+                        <option value="MAGICOM YONGMA SMC 4023">MAGICOM YONGMA SMC 4023</option>
+                        <option value="BARETONE SPEAKER 15 BWR">BARETONE SPEAKER 15 BWR</option>
+                        <option value="MAGICOM MIYAKO">MAGICOM MIYAKO</option>
+                        <option value="POLYTRON KULKAS 1 DOOR PRA15CRX">POLYTRON KULKAS 1 DOOR PRA15CRX</option>
+                        <option value="IP 15 512">IP 15 512</option>
+                        <option value="IP 15 128">IP 15 128</option>
+                        <option value="IP 15 512 PONSELINDO">IP 15 512 PONSELINDO</option>
+                        <option value="IP 15 256 PONSELINDO">IP 15 256 PONSELINDO</option>
+                        <option value="LAPTOP LENOVO">LAPTOP LENOVO</option>
+                        <option value="GOOGLE TV XIAOMI 43 INCH">GOOGLE TV XIAOMI 43 INCH</option>
+                        <option value="TV XIAOMI 32 INCH">TV XIAOMI 32 INCH</option>
+                        <option value="TV XIAOMI 43 INCH">TV XIAOMI 43 INCH</option>
+                        <option value="V40 12/256 GB 5G">V40 12/256 GB 5G</option>
+                        <option value="REDMI 14T 12/512 5G">REDMI 14T 12/512 5G</option>
+                        <option value="REDMI 13X 8/256">REDMI 13X 8/256</option>
+                        <option value="REDMI A3 4/128">REDMI A3 4/128</option>
+                        <option value="REDMI 13X 8/128">REDMI 13X 8/128</option>
+                        <option value="OTHER">Lainnya (Tulis Manual)</option>
+                    </select>
+                    <div id="tipehpError" class="error-message hidden">Tipe HP harus dipilih</div>
+                    <div id="otherHpContainer" class="hidden mt-2">
+                        <input type="text" id="otherHpInput" name="other_hp" placeholder="Masukkan tipe HP lainnya" class="w-full px-4 py-3 border rounded-xl">
+                        <div id="otherHpError" class="error-message hidden">Tipe HP lainnya harus diisi</div>
+                    </div>
                 </div>
-              </div>
-              <div class="mt-3">
-                <label class="block text-sm font-medium text-gray-700 mb-1">Satuan ${i}</label>
-                <select name="satuan${i}"
-                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent">
-                  <option value="pcs">pcs</option>
-                  <option value="stel">stel</option>
-                  <option value="psg">psg</option>
-                </select>
-              </div>
-            </div>`;
-      }
-    }
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-2">Alamat Kirim:<span class="text-red-500">*</span></label>
+                    <textarea name="alamat" id="alamat" rows="3" required class="w-full px-4 py-3 border rounded-xl"></textarea>
+                    <div id="alamatError" class="error-message hidden">Alamat kirim harus diisi</div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-gray-700 font-semibold mb-2">Keterangan:</label>
+                        <textarea name="keterangan" id="keterangan" rows="2" class="w-full px-4 py-3 border rounded-xl"></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 font-semibold mb-2">Status:<span class="text-red-500">*</span></label>
+                        <select name="status" id="status" required class="w-full px-4 py-3 border rounded-xl">
+                            <option value="">-- Pilih Status --</option>
+                            <option value="VERIFIKASI">VERIFIKASI</option>
+                            <option value="OK">OK</option>
+                            <option value="NO ACC">NO ACC</option>
+                            <option value="CANCEL">CANCEL</option>
+                        </select>
+                        <div id="statusError" class="error-message hidden">Status harus dipilih</div>
+                    </div>
+                </div>
+                <button type="submit" class="w-full bg-yellow-500 text-white font-bold py-3 px-4 rounded-xl hover:bg-yellow-600 transition">
+                    <i class="fas fa-paper-plane mr-2"></i> Kirim Data
+                </button>
+            </form>
+        </div>
+        
+        <!-- Back to Previous Menu Button -->
+        <div class="mt-8 text-center">
+            <button onclick="backToHpApplication()" class="bg-gray-500 text-white px-6 py-3 rounded-lg hover:bg-gray-600 transition">
+                <i class="fas fa-arrow-left mr-2"></i> Kembali ke Menu Sebelumnya
+            </button>
+        </div>
+    </div>
 
-    // Fungsi untuk membuka jendela cetak dengan data dinamis
-    function openPrintWindow(suratData) {
-      const printWindow = window.open('', '_blank');
-      const printDocument = printWindow.document;
+    <!-- Seragam Application Screen (Hidden by default) -->
+    <div id="seragamApplication" class="container mx-auto max-w-6xl py-16 px-4 hidden">
+        <div class="flex items-center justify-between mb-6">
+            <div class="flex items-center">
+                <button onclick="backToMainSelection()" class="mr-4 text-yellow-500 hover:text-yellow-600">
+                    <i class="fas fa-arrow-left text-2xl"></i>
+                </button>
+                <h2 class="text-2xl font-bold text-gray-800">
+                    <i class="fas fa-tshirt text-yellow-500 text-2xl mr-3"></i> Aplikasi Seragam
+                </h2>
+            </div>
+            <button onclick="backToMainSelection()" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition">
+                <i class="fas fa-home mr-2"></i> Menu Utama
+            </button>
+        </div>
+        
+        <div class="text-center mb-16" data-aos="fade-up" id="menuSection">
+            <h2 class="text-3xl font-bold text-gray-800 mb-8">Silakan pilih menu di bawah:</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <button onclick="navigateTo('box-search')"
+                    class="btn-animated bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-white font-bold py-5 px-6 rounded-xl shadow-lg flex flex-col items-center justify-center transition-all duration-300 transform hover:scale-105">
+                    <i class="fas fa-search text-3xl mb-3"></i>
+                    <span class="text-lg">Cari Data PO</span>
+                </button>
+                <button onclick="navigateTo('box-seragam')"
+                    class="btn-animated bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 text-white font-bold py-5 px-6 rounded-xl shadow-lg flex flex-col items-center justify-center transition-all duration-300 transform hover:scale-105">
+                    <i class="fas fa-file-invoice text-3xl mb-3"></i>
+                    <span class="text-lg">Input Data Seragam</span>
+                </button>
+                <button onclick="navigateTo('box-po')"
+                    class="btn-animated bg-gradient-to-r from-yellow-600 to-yellow-700 hover:from-yellow-700 hover:to-yellow-800 text-white font-bold py-5 px-6 rounded-xl shadow-lg flex flex-col items-center justify-center transition-all duration-300 transform hover:scale-105">
+                    <i class="fas fa-receipt text-3xl mb-3"></i>
+                    <span class="text-lg">Input PO_Seragam</span>
+                </button>
+                <button onclick="navigateTo('box-surat')"
+                    class="btn-animated bg-gradient-to-r from-yellow-700 to-yellow-800 hover:from-yellow-800 hover:to-yellow-900 text-white font-bold py-5 px-6 rounded-xl shadow-lg flex flex-col items-center justify-center transition-all duration-300 transform hover:scale-105">
+                    <i class="fas fa-truck text-3xl mb-3"></i>
+                    <span class="text-lg">Buat Surat Jalan</span>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Back to Previous Menu Button -->
+        <div class="mt-12 text-center">
+            <button onclick="backToMainSelection()" class="bg-gray-500 text-white px-6 py-3 rounded-lg hover:bg-gray-600 transition">
+                <i class="fas fa-arrow-left mr-2"></i> Kembali ke Menu Sebelumnya
+            </button>
+        </div>
+    </div>
 
-      // Menulis konten HTML ke jendela baru, mengganti placeholder dengan data
-      printDocument.write(
-          `<!DOCTYPE html>
-          <html lang="en">
-          <head>
-              <meta charset="UTF-8">
-              <meta name="viewport" content="width=device-width, initial-scale=1.0">
-              <title>Surat Jalan</title>
-              <style>
-                  body {
-                      font-family: Arial, sans-serif;
-                      margin: 20px;
-                  }
-                  .container {
-                      display: flex;
-                      justify-content: space-between;
-                      align-items: flex-start;
-                  }
-                  .header {
-                      font-weight: bold;
-                  }
-                  .header-koperasi {
-                      font-weight: bold;
-                  }
-                  .alamat {
-                      font-style: italic;
-                  }
-                  .center {
-                      text-align: center;
-                  }
-                  .right {
-                      text-align: right;
-                  }
-                  .signature {
-                      text-align: center;
-                      margin-top: 20px;
-                  }
-                  .section-gap {
-                      margin-bottom: 10px;
-                  }
-                  .item-gap {
-                      margin-top: 10px;
-                  }
-                  .koperasi, .surat-jalan {
-                      width: 48%;
-                      padding: 10px;
-                  }
-                  .surat-jalan {
-                      border: 1px solid black;
-                  }
-                  table {
-                      width: 100%;
-                      border-collapse: collapse;
-                      margin-top: 20px;
-                  }
-                  th, td {
-                      border: 1px solid black;
-                      padding: 8px;
-                      text-align: left;
-                  }
-                  th {
-                      background-color: #f2f2f2;
-                  }
-                  .signature-block td {
-                      height: 100px;
-                      vertical-align: bottom;
-                      text-align: center;
-                  }
-              </style>
-          </head>
-          <body>
-              <div class="container section-gap">
-                  <div class="koperasi">
-                      <div class="header-koperasi">Koperasi Sigap Nusantara</div>
-                      <div>Jl. A. Yani No. 66, RW. 3, Cemp. Putih Timur</div>
-                      <div>Kota Jakarta Pusat - 10510</div>
-                      <div>(021) 21242525<br>NPWP: 02.250.480.7-408.000</div>
-                  </div>
-                  <div class="surat-jalan">
-                      <p class="header center">Surat Jalan</p>
-                      <p style="display: flex; justify-content: space-between; margin: 5px 0;">
-                          <span style="width: 70px;">Nomor</span>
-                          <span>:</span>
-                          <span style="flex: 1; margin-left: 10px;">${suratData.nomor}/SRT/SPA/VII/2025</span>
-                      </p>
-                      <p style="display: flex; justify-content: space-between; margin: 5px 0;">
-                          <span style="width: 70px;">Tanggal</span>
-                          <span>:</span>
-                          <span style="flex: 1; margin-left: 10px;">${suratData.tanggal}</span>
-                      </p>
-                      <p style="display: flex; justify-content: space-between; margin: 5px 0;">
-                          <span style="width: 70px;">User</span>
-                          <span>:</span>
-                          <span style="flex: 1; margin-left: 10px;">${suratData.user}</span>
-                      </p>
-                      <p style="display: flex; justify-content: space-between; margin: 5px 0;">
-                          <span style="width: 70px;">No PO</span>
-                          <span>:</span>
-                          <span style="flex: 1; margin-left: 10px;">${suratData.no_po || ''}</span>
-                      </p>
-                      <p style="display: flex; justify-content: space-between; margin: 5px 0;">
-                          <span style="width: 70px;">Penerima</span>
-                          <span>:</span>
-                          <span style="flex: 1; margin-left: 10px;"></span>
-                      </p>
-                  </div>
-              </div>
-  
-              <table style="width: 30%; border-collapse: collapse; border: 1px solid black; margin-top: 20px;">
-                  <tr>
-                      <td colspan="4" class="alamat center" style="border: 1px solid black; padding: 5px;">Alamat Pengiriman</td>
-                  </tr>
-                  <tr>
-                      <td colspan="4" style="font-weight: bold; border: 1px solid black; padding: 5px;">PT. Sigap Prima Astrea</td>
-                  </tr>
-                  <tr>
-                      <td colspan="4" style="border: 1px solid black; padding: 5px;">Jl. A. Yani No. 66, RW. 3,<br>Cemp. Putih Tim., Kec. Cemp. Putih,</td>
-                  </tr>
-                  <tr>
-                      <td colspan="4" style="border: 1px solid black; padding: 5px;">Kota Jakarta Pusat - 10510</td>
-                  </tr>
-              </table>
-  
-              <table style="width: 100%; border-collapse: collapse; border: 1px solid black; margin-top: 20px;">
-                  <tr>
-                      <td colspan="5" style="border: 1px solid black; padding: 5px;">Harap dikirimkan barang-barang berikut ini:</td>
-                  </tr>
-                  <tr>
-                      <th style="border: 1px solid black; padding: 5px; background-color: #f2f2f2;">No.</th>
-                      <th colspan="2" style="border: 1px solid black; padding: 5px; background-color: #f2f2f2;">Nama Barang</th>
-                      <th style="border: 1px solid black; padding: 5px; background-color: #f2f2f2;">Qty</th>
-                      <th style="border: 1px solid black; padding: 5px; background-color: #f2f2f2;">Satuan</th>
-                  </tr>
-                  ${suratData.rows}
-                  <tr>
-              <td colspan="2" style="border: 1px solid black; padding: 5px; text-align: center; font-weight: bold;">
-                  Disiapkan oleh</td>
-              <td style="border: 1px solid black; padding: 5px; text-align: center; font-weight: bold;">Disetujui oleh
-              </td>
-              <td></td>
-              <td style="border: 1px solid black; padding: 5px; text-align: center; font-weight: bold;">Dikonfirmasi oleh
-              </td>
-          </tr>
-          <tr style="font-weight: bold;">
-              <td colspan="2" class="signature" style="border: 1px solid black; padding: 5px; text-align: center;">
-                  <br><br><br><br><br>Steven
-                  Jefferson<br><span style="font-size: smaller;">Staff Koperasi</span>
-              </td>
-              <td class="signature" style="border: 1px solid black; padding: 5px; text-align: center;">
-                  <br><br><br><br><br>Agus
-                  Sofyan
-                  Effendi<br><span style="font-size: smaller;">Manager Koperasi</span>
-              </td>
-              <td></td>
-              <td class="signature" style="border: 1px solid black; padding: 5px; text-align: center;">
-                  <br><br><br><br><br>Customer
-              </td>
-          </tr>
-              </table>
-  
-              <script>
-                window.onload = function() {
-                  setTimeout(function() {
-                    window.print();
-                  }, 500);
-                }
-              <\/script>
-          </body>
-          </html>`
-        );
+    <!-- Seragam Form Container (Hidden by default) -->
+    <div class="container mx-auto max-w-4xl py-16 px-4" id="formContainer" style="display: none;">
+        <!-- Form Cari Data PO -->
+        <div class="bg-white rounded-2xl shadow-2xl p-8 mb-10" id="box-search" style="display: none;" data-aos="fade-up">
+            <div class="flex items-center justify-between mb-6">
+                <div class="flex items-center">
+                    <i class="fas fa-search text-yellow-500 text-2xl mr-3"></i>
+                    <h2 class="text-2xl font-bold text-gray-800">Cari Data PO</h2>
+                </div>
+                <button onclick="backToMainSelection()" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition">
+                    <i class="fas fa-home mr-2"></i> Menu Utama
+                </button>
+            </div>
+            <div id="notif-search" class="text-center font-bold mb-6 p-3 rounded-lg"></div>
+            <form id="form-search" class="space-y-6">
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-2">Nomor PO:</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fas fa-hashtag text-gray-400"></i>
+                        </div>
+                        <input type="text" name="search_po" required
+                            class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-yellow-500 focus:border-transparent shadow-sm">
+                    </div>
+                </div>
+                <button type="submit"
+                    class="w-full bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-white font-bold py-3 px-4 rounded-xl shadow-lg transition-all duration-300 transform hover:scale-105">
+                    <i class="fas fa-search mr-2"></i> Cari PO
+                </button>
+            </form>
+            <div id="search-results" class="mt-8 space-y-4"></div>
+            
+            <!-- Back to Previous Menu Button -->
+            <div class="mt-8 text-center">
+                <button onclick="backToSeragamApplication()" class="bg-gray-500 text-white px-6 py-3 rounded-lg hover:bg-gray-600 transition">
+                    <i class="fas fa-arrow-left mr-2"></i> Kembali ke Menu Sebelumnya
+                </button>
+            </div>
+        </div>
 
-      printDocument.close();
-    }
+        <!-- Form Data Seragam -->
+        <div class="bg-white rounded-2xl shadow-2xl p-8 mb-10" id="box-seragam" style="display: none;" data-aos="fade-up">
+            <div class="flex items-center justify-between mb-6">
+                <div class="flex items-center">
+                    <i class="fas fa-file-invoice text-yellow-500 text-2xl mr-3"></i>
+                    <h2 class="text-2xl font-bold text-gray-800">Form Data Seragam</h2>
+                </div>
+                <button onclick="backToMainSelection()" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition">
+                    <i class="fas fa-home mr-2"></i> Menu Utama
+                </button>
+            </div>
+            <div id="notif-seragam" class="text-center font-bold mb-6 p-3 rounded-lg"></div>
+            <form id="form-seragam" class="space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-gray-700 font-semibold mb-2">Tanggal:</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fas fa-calendar-alt text-gray-400"></i>
+                            </div>
+                            <input type="date" name="tanggal" required
+                                class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-yellow-500 focus:border-transparent shadow-sm">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 font-semibold mb-2">No. Invoice:</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fas fa-file-invoice text-gray-400"></i>
+                            </div>
+                            <input type="text" name="no_inv" required
+                                class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-yellow-500 focus:border-transparent shadow-sm">
+                        </div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-gray-700 font-semibold mb-2">No. PO:</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fas fa-receipt text-gray-400"></i>
+                            </div>
+                            <input type="text" name="no_po" required
+                                class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-yellow-500 focus:border-transparent shadow-sm">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 font-semibold mb-2">Nominal:</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fas fa-money-bill-wave text-gray-400"></i>
+                            </div>
+                            <input type="number" name="nominal" required
+                                class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-yellow-500 focus:border-transparent shadow-sm">
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-2">User:</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fas fa-user text-gray-400"></i>
+                        </div>
+                        <input type="text" name="user" required
+                            class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-yellow-500 focus:border-transparent shadow-sm">
+                    </div>
+                </div>
+                <button type="submit"
+                    class="w-full bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 text-white font-bold py-3 px-4 rounded-xl shadow-lg transition-all duration-300 transform hover:scale-105">
+                    <i class="fas fa-paper-plane mr-2"></i> Kirim Data Seragam
+                </button>
+            </form>
+            
+            <!-- Back to Previous Menu Button -->
+            <div class="mt-8 text-center">
+                <button onclick="backToSeragamApplication()" class="bg-gray-500 text-white px-6 py-3 rounded-lg hover:bg-gray-600 transition">
+                    <i class="fas fa-arrow-left mr-2"></i> Kembali ke Menu Sebelumnya
+                </button>
+            </div>
+        </div>
 
-    function printSurat() {
-      const form = document.querySelector('#box-surat form');
-      if (!form) {
-        alert("Form Surat Jalan tidak ditemukan!");
-        return;
-      }
+        <!-- Form Data PO_Seragam -->
+        <div class="bg-white rounded-2xl shadow-2xl p-8 mb-10" id="box-po" style="display: none;" data-aos="fade-up">
+            <div class="flex items-center justify-between mb-6">
+                <div class="flex items-center">
+                    <i class="fas fa-receipt text-yellow-600 text-2xl mr-3"></i>
+                    <h2 class="text-2xl font-bold text-gray-800">Form Data PO_Seragam</h2>
+                </div>
+                <button onclick="backToMainSelection()" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition">
+                    <i class="fas fa-home mr-2"></i> Menu Utama
+                </button>
+            </div>
+            <div id="notif-po" class="text-center font-bold mb-6 p-3 rounded-lg"></div>
+            <form id="form-po" class="space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-gray-700 font-semibold mb-2">Tanggal:</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fas fa-calendar-alt text-gray-400"></i>
+                            </div>
+                            <input type="date" name="tanggal" required
+                                class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-yellow-600 focus:border-transparent shadow-sm">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 font-semibold mb-2">No. BK:</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fas fa-file-alt text-gray-400"></i>
+                            </div>
+                            <input type="text" name="no_bk" required
+                                class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-yellow-600 focus:border-transparent shadow-sm">
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-2">No. PO:</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fas fa-receipt text-gray-400"></i>
+                        </div>
+                        <input type="text" name="no_po" required
+                            class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-yellow-600 focus:border-transparent shadow-sm">
+                    </div>
+                </div>
+                <button type="submit"
+                    class="w-full bg-gradient-to-r from-yellow-600 to-yellow-700 hover:from-yellow-700 hover:to-yellow-800 text-white font-bold py-3 px-4 rounded-xl shadow-lg transition-all duration-300 transform hover:scale-105">
+                    <i class="fas fa-paper-plane mr-2"></i> Kirim Data PO_Seragam
+                </button>
+            </form>
+            
+            <!-- Back to Previous Menu Button -->
+            <div class="mt-8 text-center">
+                <button onclick="backToSeragamApplication()" class="bg-gray-500 text-white px-6 py-3 rounded-lg hover:bg-gray-600 transition">
+                    <i class="fas fa-arrow-left mr-2"></i> Kembali ke Menu Sebelumnya
+                </button>
+            </div>
+        </div>
 
-      const nomor = form.nomor.value;
-      const tanggalInput = form.tanggal.value;
-      const user = form.user.value;
-      const no_po = form.no_po ? form.no_po.value : "";
-      const jumlah = parseInt(form.jumlahBarang.value);
+        <!-- Form Surat Jalan -->
+        <div class="bg-white rounded-2xl shadow-2xl p-8 mb-10" id="box-surat" style="display: none;" data-aos="fade-up">
+            <div class="flex items-center justify-between mb-6">
+                <div class="flex items-center">
+                    <i class="fas fa-truck text-yellow-700 text-2xl mr-3"></i>
+                    <h2 class="text-2xl font-bold text-gray-800">Form Input Surat Jalan</h2>
+                </div>
+                <button onclick="backToMainSelection()" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition">
+                    <i class="fas fa-home mr-2"></i> Menu Utama
+                </button>
+            </div>
+            <form id="suratForm" class="space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-gray-700 font-semibold mb-2">Nomor Surat</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fas fa-hashtag text-gray-400"></i>
+                            </div>
+                            <input type="text" name="nomor" required
+                                class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-yellow-700 focus:border-transparent shadow-sm">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 font-semibold mb-2">Tanggal</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fas fa-calendar-alt text-gray-400"></i>
+                            </div>
+                            <input type="date" name="tanggal" required
+                                class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-yellow-700 focus:border-transparent shadow-sm">
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-2">User</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fas fa-user text-gray-400"></i>
+                        </div>
+                        <input type="text" name="user" required
+                            class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-yellow-700 focus:border-transparent shadow-sm">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-2">Jumlah Barang</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fas fa-boxes text-gray-400"></i>
+                        </div>
+                        <input type="number" name="jumlahBarang" min="1" required
+                            class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-yellow-700 focus:border-transparent shadow-sm">
+                    </div>
+                </div>
+                <button type="button" onclick="buatInputBarang()"
+                    class="w-full bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-white font-bold py-3 px-4 rounded-xl shadow-lg transition-all duration-300">
+                    <i class="fas fa-plus-circle mr-2"></i> Buat Form Barang
+                </button>
+                <div id="barangInputs" class="space-y-6"></div>
+                <button type="submit"
+                    class="w-full bg-gradient-to-r from-yellow-700 to-yellow-800 hover:from-yellow-800 hover:to-yellow-900 text-white font-bold py-3 px-4 rounded-xl shadow-lg transition-all duration-300">
+                    <i class="fas fa-file-contract mr-2"></i> Tampilkan Surat Jalan
+                </button>
+            </form>
+            <div class="text-center mt-8">
+                <button id="printButton" onclick="printSurat()"
+                    class="hidden bg-gradient-to-r from-yellow-600 to-yellow-700 hover:from-yellow-700 hover:to-yellow-800 text-white font-bold py-3 px-6 rounded-xl shadow-lg transition-all duration-300">
+                    <i class="fas fa-print mr-2"></i> Cetak / Simpan PDF
+                </button>
+            </div>
+            <div id="outputSection" class="mt-10 p-6 bg-yellow-50 rounded-xl border border-yellow-200">
+                <div id="output"></div>
+            </div>
+            
+            <!-- Back to Previous Menu Button -->
+            <div class="mt-8 text-center">
+                <button onclick="backToSeragamApplication()" class="bg-gray-500 text-white px-6 py-3 rounded-lg hover:bg-gray-600 transition">
+                    <i class="fas fa-arrow-left mr-2"></i> Kembali ke Menu Sebelumnya
+                </button>
+            </div>
+        </div>
+    </div>
 
-      if (!nomor || !tanggalInput || !user || isNaN(jumlah) || jumlah <= 0) {
-        alert("Harap isi semua field yang diperlukan dan buat form barang terlebih dahulu.");
-        return;
-      }
+    <script>
+        // Inisialisasi AOS
+        document.addEventListener('DOMContentLoaded', function () {
+            AOS.init({
+                duration: 1000,
+                easing: 'ease-out-cubic',
+                once: true
+            });
+        });
 
-      let tanggalFormatted = "";
-      if (tanggalInput) {
-        const tanggalObj = new Date(tanggalInput);
-        tanggalFormatted = tanggalObj.toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' });
-      }
+        // Google Apps Script URLs
+        const scriptURL = "https://script.google.com/macros/s/AKfycbx7br5nZCfXW9xXqY2kZxhg72WxTsxYRAwNoH_UG2NGRo2_JPetYSMklLwmUYuMPT6M/exec";
+        const scriptUrl = "https://script.google.com/macros/s/AKfycbyJb9H68ev5ndTA-icTGN53x7NwAFRzA8Ny7yO0I4xru2JjpAMZ4L35VPCxu5SzSChf/exec";
 
-      let rows = "";
-      for (let i = 1; i <= jumlah; i++) {
-        const namaInput = form[`barang${i}`];
-        const qtyInput = form[`qty${i}`];
-        const satuanInput = form[`satuan${i}`];
-
-        if (namaInput && qtyInput && satuanInput) {
-          const nama = namaInput.value;
-          const qty = qtyInput.value;
-          const satuan = satuanInput.value;
-          rows += `<tr>
-                       <td style="border: 1px solid black; padding: 5px;">${i}</td>
-                       <td colspan="2" style="border: 1px solid black; padding: 5px;">${nama}</td>
-                       <td style="border: 1px solid black; padding: 5px;">${qty}</td>
-                       <td style="border: 1px solid black; padding: 5px;">${satuan}</td>
-                     </tr>`;
-        } else {
-          console.warn(`Input barang ${i} tidak ditemukan atau tidak lengkap.`);
+        // Main navigation functions
+        function showApplication(appType) {
+            document.getElementById("mainSelectionScreen").style.display = "none";
+            if (appType === 'hp') {
+                document.getElementById("hpApplication").style.display = "block";
+                AOS.refresh();
+            } else if (appType === 'seragam') {
+                document.getElementById("seragamApplication").style.display = "block";
+                AOS.refresh();
+            }
         }
-      }
 
-      const suratData = {
-        nomor: nomor,
-        tanggal: tanggalFormatted,
-        user: user,
-        no_po: no_po,
-        rows: rows
-      };
+        function backToMainSelection() {
+            // Hide all sections
+            document.getElementById("mainSelectionScreen").style.display = "block";
+            document.getElementById("hpApplication").style.display = "none";
+            document.getElementById("hpSearchSection").style.display = "none";
+            document.getElementById("hpInputSection").style.display = "none";
+            document.getElementById("seragamApplication").style.display = "none";
+            document.getElementById("formContainer").style.display = "none";
+            AOS.refresh();
+        }
 
-      openPrintWindow(suratData);
-    }
+        // HP Application functions
+        function showHpSection(section) {
+            document.getElementById("hpApplication").style.display = "none";
+            if (section === 'search') {
+                document.getElementById("hpSearchSection").style.display = "block";
+            } else if (section === 'input') {
+                document.getElementById("hpInputSection").style.display = "block";
+                // Initialize Select2 for HP type dropdown
+                $('#tipehp').select2({ 
+                    theme: 'bootstrap', 
+                    dropdownParent: $('#formHP') 
+                }).on('change', function () {
+                    if ($(this).val() === 'OTHER') {
+                        $('#otherHpContainer').show();
+                        $('#otherHpInput').prop('required', true);
+                    } else {
+                        $('#otherHpContainer').hide();
+                        $('#otherHpInput').prop('required', false);
+                    }
+                });
+                
+                // Set today's date as default
+                const today = new Date();
+                $('#tanggal').val(today.toISOString().split('T')[0]);
+            }
+            AOS.refresh();
+        }
 
-    document.getElementById("suratForm").addEventListener("submit", function (e) {
-      e.preventDefault();
-      const form = e.target;
-      const nomor = form.nomor.value;
-      const tanggal = form.tanggal.value;
-      const user = form.user.value;
-      let noPoInput = form.querySelector('input[name="no_po"]');
-      if (!noPoInput) {
-        noPoInput = document.createElement('input');
-        noPoInput.type = 'hidden';
-        noPoInput.name = 'no_po';
-        form.appendChild(noPoInput);
-      }
-      const no_po = noPoInput.value;
+        function backToHpApplication() {
+            document.getElementById("hpSearchSection").style.display = "none";
+            document.getElementById("hpInputSection").style.display = "none";
+            document.getElementById("hpApplication").style.display = "block";
+            AOS.refresh();
+        }
 
-      const jumlah = parseInt(form.jumlahBarang.value);
-      let rows = "";
-      for (let i = 1; i <= jumlah; i++) {
-        const nama = form[`barang${i}`].value;
-        const qty = form[`qty${i}`].value;
-        const satuan = form[`satuan${i}`].value;
-        rows += `<tr><td class="border border-gray-400 p-2">${i}</td><td class="border border-gray-400 p-2">${nama}</td><td class="border border-gray-400 p-2">${qty}</td><td class="border border-gray-400 p-2">${satuan}</td></tr>`;
-      }
-      document.getElementById("output").innerHTML = 
-          `<div class="bg-white p-6 rounded-xl shadow-lg">
-            <table class="w-full border-collapse border border-gray-400">
-              <tr>
-                <td colspan="2" class="border border-gray-400 p-4 align-top">
-                  <strong class="text-lg text-yellow-600">Koperasi Sigap Nusantara</strong><br>
-                  <div class="mt-2 text-gray-700">
-                    Jl. A. Yani No.66, RW.3, Cemp. Putih Timur<br>
-                    Kota Jakarta Pusat - 10510<br>
-                    (021) 2124525<br>
-                    NPWP: 02.250.480.7-408.000
-                  </div>
-                </td>
-                <td colspan="2" class="border border-gray-400 p-4 text-right align-top">
-                  <strong class="text-lg text-yellow-700">Surat Jalan</strong><br><br>
-                  <div class="text-gray-700">
-                    Nomor: ${nomor}<br>
-                    Tanggal: ${tanggal}<br>
-                    User: ${user}<br>
-                    No PO: ${no_po || '-'}
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td colspan="4" class="border border-gray-400 p-4 bg-yellow-50">
-                  <strong class="text-yellow-700">Alamat Pengiriman</strong><br>
-                  <div class="mt-2 text-gray-700">
-                    PT. Sigap Prima Astrea<br>
-                    Jl. A. Yani No.66, RW.3, Cemp. Putih Tim., Kec. Cemp. Putih,<br>
-                    Kota Jakarta Pusat - 10510
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td colspan="4" class="border border-gray-400 p-4">
-                  Harap dikirimkan barang-barang berikut ini:
-                </td>
-              </tr>
-              <tr>
-                <th class="border border-gray-400 p-2 bg-gray-100">No.</th>
-                <th class="border border-gray-400 p-2 bg-gray-100">Nama Barang</th>
-                <th class="border border-gray-400 p-2 bg-gray-100">Qty</th>
-                <th class="border border-gray-400 p-2 bg-gray-100">Satuan</th>
-              </tr>
-              ${rows}
-              <tr class="signature-block">
-                <td class="border border-gray-400 p-4 h-32 align-bottom text-center">
-                  <div class="text-gray-700">Disiapkan oleh</div><br><br>
-                  <strong class="text-yellow-600">Steven Jefferson</strong><br>
-                  <span class="text-sm text-gray-600">Staff Koperasi</span>
-                </td>
-                <td class="border border-gray-400 p-4 h-32 align-bottom text-center">
-                  <div class="text-gray-700">Disetujui oleh</div><br><br>
-                  <strong class="text-yellow-600">Agus Sofyan Effendi</strong><br>
-                  <span class="text-sm text-gray-600">Manager Koperasi</span>
-                </td>
-                <td colspan="2" class="border border-gray-400 p-4 h-32 align-bottom text-center">
-                  <div class="text-gray-700">Dikonfirmasi oleh</div><br><br>
-                  <strong class="text-gray-700">________________________</strong><br>
-                  <span class="text-sm text-gray-600">Customer</span>
-                </td>
-              </tr>
-            </table>
-          </div>`;
-      document.getElementById("outputSection").style.display = "block";
-      document.getElementById("printButton").style.display = "inline-block";
-      document.getElementById("outputSection").scrollIntoView({ behavior: 'smooth' });
-    });
-  </script>
+        // Seragam Application functions
+        function navigateTo(formId) {
+            document.getElementById("seragamApplication").style.display = "none";
+            document.getElementById("formContainer").style.display = "block";
+            const sections = ["box-search", "box-seragam", "box-po", "box-surat"];
+            sections.forEach(id => document.getElementById(id).style.display = "none");
+            document.getElementById(formId).style.display = "block";
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            // Refresh AOS setelah navigasi
+            AOS.refresh();
+        }
+
+        function backToSeragamApplication() {
+            document.getElementById("formContainer").style.display = "none";
+            document.getElementById("seragamApplication").style.display = "block";
+            // Scroll to menu section
+            document.getElementById("menuSection").scrollIntoView({ behavior: 'smooth' });
+            AOS.refresh();
+        }
+
+        // Notification function
+        function showNotification(message, isSuccess = true) {
+            const notification = $('#notification');
+            const icon = $('#notificationIcon');
+            const text = $('#notificationText');
+            
+            // Set notification content
+            text.text(message);
+            
+            // Set notification style based on success/error
+            if (isSuccess) {
+                notification.removeClass('bg-red-500').addClass('bg-green-500');
+                icon.removeClass('fa-times-circle').addClass('fa-check-circle');
+            } else {
+                notification.removeClass('bg-green-500').addClass('bg-red-500');
+                icon.removeClass('fa-check-circle').addClass('fa-times-circle');
+            }
+            
+            // Show notification
+            notification.removeClass('hidden').removeClass('translate-y-16').addClass('notification-show');
+            
+            // Hide notification after 5 seconds
+            setTimeout(() => {
+                notification.addClass('translate-y-16').removeClass('notification-show');
+            }, 5000);
+        }
+
+        // HP Application functions
+        $(document).ready(function () {
+            // Search button click handler
+            $('#searchBtn').click(searchByNpk);
+            
+            // Enter key handler for search
+            $('#searchNpk').keypress(function(e) {
+                if (e.which === 13) {
+                    searchByNpk();
+                    e.preventDefault();
+                }
+            });
+            
+            // Form submission handler
+            $('#formHP').submit(submitHpForm);
+        });
+
+        // Function to validate phone number
+        function validatePhoneNumber(phone) {
+            const phoneRegex = /^[0-9]{10,13}$/;
+            return phoneRegex.test(phone.replace(/\D/g, ''));
+        }
+
+        // Function to search data by NPK
+        function searchByNpk() {
+            const npk = $('#searchNpk').val().trim();
+            const errorElement = $('#searchNpkError');
+            
+            // Reset error state
+            errorElement.addClass('hidden');
+            $('#searchNpk').removeClass('error-input');
+            
+            // Validate input
+            if (!npk) {
+                errorElement.removeClass('hidden');
+                $('#searchNpk').addClass('error-input');
+                return;
+            }
+            
+            // Show loading spinner
+            $('#loadingSpinner').removeClass('hidden');
+            
+            const searchUrl = `${scriptUrl}?action=getData&npk=${encodeURIComponent(npk)}`;
+            
+            fetch(searchUrl)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Gagal menghubungi server');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (Array.isArray(data) && data.length > 0) {
+                        displaySearchResults(data);
+                        showNotification(`Ditemukan ${data.length} data untuk NPK ${npk}`);
+                    } else {
+                        showNotification('Data tidak ditemukan untuk NPK tersebut', false);
+                        $('#searchResults').addClass('hidden');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    showNotification('Gagal mengambil data: ' + error.message, false);
+                    $('#searchResults').addClass('hidden');
+                })
+                .finally(() => {
+                    // Hide loading spinner
+                    $('#loadingSpinner').addClass('hidden');
+                });
+        }
+
+        // Display search results in table
+        function displaySearchResults(data) {
+            const resultsBody = $('#resultsBody');
+            resultsBody.empty();
+            
+            data.forEach(row => {
+                resultsBody.append(`
+                    <tr>
+                        <td>${formatDateDisplay(row.tanggal)}</td>
+                        <td>${row.npk || '-'}</td>
+                        <td>${formatPhoneDisplay(row.notelp)}</td>
+                        <td>${row.cicilan || '-'}</td>
+                        <td>${row.tipehp || '-'}</td>
+                        <td>${row.alamat || '-'}</td>
+                        <td>${row.keterangan || '-'}</td>
+                        <td>${row.status || '-'}</td>
+                    </tr>
+                `);
+            });
+            
+            $('#searchResults').removeClass('hidden');
+        }
+
+        // Format date for display
+        function formatDateDisplay(dateStr) {
+            if (!dateStr || dateStr === '-') return '-';
+            
+            // Try different date formats
+            if (dateStr.includes('/')) {
+                // Format: MM/DD/YYYY or DD/MM/YYYY
+                const parts = dateStr.split('/');
+                if (parts.length === 3) {
+                    return `${parts[1].padStart(2, '0')}/${parts[0].padStart(2, '0')}/${parts[2]}`;
+                }
+            } else if (dateStr.includes('-')) {
+                // Format: YYYY-MM-DD
+                const parts = dateStr.split('-');
+                if (parts.length === 3) {
+                    return `${parts[2]}/${parts[1]}/${parts[0]}`;
+                }
+            }
+            
+            return dateStr;
+        }
+
+        // Format phone number for display
+        function formatPhoneDisplay(phone) {
+            if (!phone || phone === '-') return '-';
+            
+            // Remove all non-digit characters
+            const cleaned = phone.replace(/\D/g, '');
+            
+            // Format as Indonesian phone number
+            if (cleaned.length >= 10) {
+                return cleaned.replace(/(\d{4})(\d{4})(\d+)/, '$1-$2-$3');
+            }
+            
+            return cleaned;
+        }
+
+        // Submit HP form data
+        function submitHpForm(e) {
+            e.preventDefault();
+            
+            // Reset all error states
+            $('.error-message').addClass('hidden');
+            $('input, select, textarea').removeClass('error-input');
+            
+            // Validate form
+            let isValid = true;
+            
+            // Validate required fields
+            const requiredFields = [
+                { id: 'tanggal', errorId: 'tanggalError' },
+                { id: 'npk', errorId: 'npkError' },
+                { id: 'notelp', errorId: 'notelpError' },
+                { id: 'cicilan', errorId: 'cicilanError' },
+                { id: 'tipehp', errorId: 'tipehpError' },
+                { id: 'alamat', errorId: 'alamatError' },
+                { id: 'status', errorId: 'statusError' }
+            ];
+            
+            requiredFields.forEach(field => {
+                const value = $(`#${field.id}`).val().trim();
+                if (!value) {
+                    $(`#${field.id}`).addClass('error-input');
+                    $(`#${field.errorId}`).removeClass('hidden');
+                    isValid = false;
+                }
+            });
+            
+            // Validate phone number format
+            const phone = $('#notelp').val().trim();
+            if (phone && !validatePhoneNumber(phone)) {
+                $('#notelp').addClass('error-input');
+                $('#notelpError').removeClass('hidden');
+                isValid = false;
+            }
+            
+            // Validate OTHER HP type
+            if ($('#tipehp').val() === 'OTHER' && !$('#otherHpInput').val().trim()) {
+                $('#otherHpInput').addClass('error-input');
+                $('#otherHpError').removeClass('hidden');
+                isValid = false;
+            }
+            
+            if (!isValid) {
+                showNotification('Harap periksa kembali form Anda', false);
+                return;
+            }
+            
+            // Prepare form data
+            const formData = new FormData(e.target);
+            let tipehp = $('#tipehp').val();
+            if (tipehp === 'OTHER') tipehp = $('#otherHpInput').val();
+            formData.set('tipehp', tipehp);
+            
+            // Format phone number with WhatsApp link
+            const phoneNumber = formatPhoneInput(phone);
+            const waLink = `=HYPERLINK("https://wa.me/${phoneNumber.startsWith('0') ? '62' + phoneNumber.slice(1) : phoneNumber}")`;
+            formData.set('notelp', waLink);
+            
+            // Format date to MM/DD/YYYY for Google Sheets
+            const date = new Date(formData.get('tanggal'));
+            formData.set('tanggal', `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`);
+            
+            // Show loading spinner
+            $('#loadingSpinner').removeClass('hidden');
+            
+            fetch(scriptUrl, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Gagal menghubungi server');
+                }
+                return response.json();
+            })
+            .then(result => {
+                if (result.error) {
+                    throw new Error(result.error);
+                }
+                
+                // Reset form
+                $('#formHP')[0].reset();
+                $('#tipehp').val('').trigger('change');
+                $('#otherHpContainer').hide();
+                
+                // Set today's date again
+                const today = new Date();
+                $('#tanggal').val(today.toISOString().split('T')[0]);
+                
+                showNotification('Data berhasil dikirim!');
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showNotification('Gagal mengirim data: ' + error.message, false);
+            })
+            .finally(() => {
+                // Hide loading spinner
+                $('#loadingSpinner').addClass('hidden');
+            });
+        }
+
+        // Format phone number for input field
+        function formatPhoneInput(phone) {
+            if (!phone) return '';
+            return phone.replace(/\D/g, '');
+        }
+
+        // Seragam Application functions
+        document.getElementById('form-seragam').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const notif = document.getElementById('notif-seragam');
+            const formData = new FormData(e.target);
+            
+            // Show loading spinner
+            document.getElementById('loadingSpinner').classList.remove('hidden');
+            
+            try {
+                await fetch(scriptURL, { method: "POST", body: formData });
+                notif.textContent = "✅ Data Seragam berhasil dikirim!";
+                notif.className = "text-center font-bold mb-6 p-3 rounded-lg bg-green-100 text-green-700";
+                e.target.reset();
+            } catch (err) {
+                notif.textContent = "❌ Gagal mengirim data.";
+                notif.className = "text-center font-bold mb-6 p-3 rounded-lg bg-red-100 text-red-700";
+            } finally {
+                // Hide loading spinner
+                document.getElementById('loadingSpinner').classList.add('hidden');
+            }
+        });
+
+        document.getElementById('form-po').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const notif = document.getElementById('notif-po');
+            const formData = new FormData(e.target);
+            
+            // Show loading spinner
+            document.getElementById('loadingSpinner').classList.remove('hidden');
+            
+            try {
+                await fetch(scriptURL, { method: "POST", body: formData });
+                notif.textContent = "✅ Data PO_Seragam berhasil dikirim!";
+                notif.className = "text-center font-bold mb-6 p-3 rounded-lg bg-green-100 text-green-700";
+                e.target.reset();
+            } catch (err) {
+                notif.textContent = "❌ Gagal mengirim data.";
+                notif.className = "text-center font-bold mb-6 p-3 rounded-lg bg-red-100 text-red-700";
+            } finally {
+                // Hide loading spinner
+                document.getElementById('loadingSpinner').classList.add('hidden');
+            }
+        });
+
+        document.getElementById('form-search').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const notif = document.getElementById('notif-search');
+            const resultsContainer = document.getElementById('search-results');
+            const formData = new FormData(e.target);
+            notif.textContent = "🔍 Mencari data...";
+            notif.className = "text-center font-bold mb-6 p-3 rounded-lg bg-blue-100 text-blue-700";
+            resultsContainer.innerHTML = "";
+            
+            // Show loading spinner
+            document.getElementById('loadingSpinner').classList.remove('hidden');
+            
+            try {
+                const response = await fetch(scriptURL, { method: "POST", body: formData });
+                const result = await response.json();
+                if (result.status === "success") {
+                    notif.textContent = `✅ Ditemukan ${result.count} data`;
+                    notif.className = "text-center font-bold mb-6 p-3 rounded-lg bg-green-100 text-green-700";
+                    result.data.forEach(item => {
+                        const div = document.createElement("div");
+                        div.className = "bg-gray-50 p-5 rounded-xl border border-gray-200 shadow-sm";
+                        div.innerHTML = 
+                            `<div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                <div><strong class="text-gray-700">No:</strong> <span class="text-gray-900">${item.no || "-"}</span></div>
+                                <div><strong class="text-gray-700">Tanggal:</strong> <span class="text-gray-900">${item.tanggal || "-"}</span></div>
+                                <div><strong class="text-gray-700">No. Invoice:</strong> <span class="text-gray-900">${item.no_inv || "-"}</span></div>
+                                <div><strong class="text-gray-700">No. PO:</strong> <span class="text-gray-900">${item.no_po || "-"}</span></div>
+                                <div><strong class="text-gray-700">Nominal:</strong> <span class="text-gray-900">${item.nominal ? Number(item.nominal).toLocaleString() : "-"}</span></div>
+                                <div><strong class="text-gray-700">DPP:</strong> <span class="text-gray-900">${item.dpp ? Number(item.dpp).toLocaleString() : "-"}</span></div>
+                                <div><strong class="text-gray-700">DPP9:</strong> <span class="text-gray-900">${item.dpp9 ? Number(item.dpp9).toLocaleString() : "-"}</span></div>
+                                <div><strong class="text-gray-700">User:</strong> <span class="text-gray-900">${item.user || "-"}</span></div>
+                            </div>`;
+                        resultsContainer.appendChild(div);
+                    });
+                } else {
+                    notif.textContent = result.message || "❌ Tidak ditemukan.";
+                    notif.className = "text-center font-bold mb-6 p-3 rounded-lg bg-red-100 text-red-700";
+                }
+            } catch (err) {
+                notif.textContent = "❌ Gagal melakukan pencarian.";
+                notif.className = "text-center font-bold mb-6 p-3 rounded-lg bg-red-100 text-red-700";
+            } finally {
+                // Hide loading spinner
+                document.getElementById('loadingSpinner').classList.add('hidden');
+            }
+        });
+
+        function buatInputBarang() {
+            const jumlah = document.querySelector('input[name="jumlahBarang"]').value;
+            const container = document.getElementById('barangInputs');
+            container.innerHTML = "";
+            for (let i = 1; i <= jumlah; i++) {
+                container.innerHTML += 
+                    `<div class="bg-yellow-50 p-5 rounded-xl border border-yellow-200">
+                        <h3 class="font-bold text-yellow-700 mb-3 flex items-center">
+                            <i class="fas fa-box mr-2"></i> Barang ${i}
+                        </h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="md:col-span-2">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Nama Barang ${i}</label>
+                                <input type="text" name="barang${i}" required
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Qty ${i}</label>
+                                <input type="number" name="qty${i}" required
+                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent">
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Satuan ${i}</label>
+                            <select name="satuan${i}"
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent">
+                                <option value="pcs">pcs</option>
+                                <option value="stel">stel</option>
+                                <option value="psg">psg</option>
+                            </select>
+                        </div>
+                    </div>`;
+            }
+        }
+
+        function openPrintWindow(suratData) {
+            const printWindow = window.open('', '_blank');
+            const printDocument = printWindow.document;
+            printDocument.write(
+                `<!DOCTYPE html>
+                <html lang="en">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>Surat Jalan</title>
+                    <style>
+                        body {
+                            font-family: Arial, sans-serif;
+                            margin: 20px;
+                        }
+                        .container {
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: flex-start;
+                        }
+                        .header {
+                            font-weight: bold;
+                        }
+                        .header-koperasi {
+                            font-weight: bold;
+                        }
+                        .alamat {
+                            font-style: italic;
+                        }
+                        .center {
+                            text-align: center;
+                        }
+                        .right {
+                            text-align: right;
+                        }
+                        .signature {
+                            text-align: center;
+                            margin-top: 20px;
+                        }
+                        .section-gap {
+                            margin-bottom: 10px;
+                        }
+                        .item-gap {
+                            margin-top: 10px;
+                        }
+                        .koperasi, .surat-jalan {
+                            width: 48%;
+                            padding: 10px;
+                        }
+                        .surat-jalan {
+                            border: 1px solid black;
+                        }
+                        table {
+                            width: 100%;
+                            border-collapse: collapse;
+                            margin-top: 20px;
+                        }
+                        th, td {
+                            border: 1px solid black;
+                            padding: 8px;
+                            text-align: left;
+                        }
+                        th {
+                            background-color: #f2f2f2;
+                        }
+                        .signature-block td {
+                            height: 100px;
+                            vertical-align: bottom;
+                            text-align: center;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class="container section-gap">
+                        <div class="koperasi">
+                            <div class="header-koperasi">Koperasi Sigap Nusantara</div>
+                            <div>Jl. A. Yani No. 66, RW. 3, Cemp. Putih Timur</div>
+                            <div>Kota Jakarta Pusat - 10510</div>
+                            <div>(021) 21242525<br>NPWP: 02.250.480.7-408.000</div>
+                        </div>
+                        <div class="surat-jalan">
+                            <p class="header center">Surat Jalan</p>
+                            <p style="display: flex; justify-content: space-between; margin: 5px 0;">
+                                <span style="width: 70px;">Nomor</span>
+                                <span>:</span>
+                                <span style="flex: 1; margin-left: 10px;">${suratData.nomor}/SRT/SPA/VII/2025</span>
+                            </p>
+                            <p style="display: flex; justify-content: space-between; margin: 5px 0;">
+                                <span style="width: 70px;">Tanggal</span>
+                                <span>:</span>
+                                <span style="flex: 1; margin-left: 10px;">${suratData.tanggal}</span>
+                            </p>
+                            <p style="display: flex; justify-content: space-between; margin: 5px 0;">
+                                <span style="width: 70px;">User</span>
+                                <span>:</span>
+                                <span style="flex: 1; margin-left: 10px;">${suratData.user}</span>
+                            </p>
+                            <p style="display: flex; justify-content: space-between; margin: 5px 0;">
+                                <span style="width: 70px;">No PO</span>
+                                <span>:</span>
+                                <span style="flex: 1; margin-left: 10px;">${suratData.no_po || ''}</span>
+                            </p>
+                            <p style="display: flex; justify-content: space-between; margin: 5px 0;">
+                                <span style="width: 70px;">Penerima</span>
+                                <span>:</span>
+                                <span style="flex: 1; margin-left: 10px;"></span>
+                            </p>
+                        </div>
+                    </div>
+
+                    <table style="width: 30%; border-collapse: collapse; border: 1px solid black; margin-top: 20px;">
+                        <tr>
+                            <td colspan="4" class="alamat center" style="border: 1px solid black; padding: 5px;">Alamat Pengiriman</td>
+                        </tr>
+                        <tr>
+                            <td colspan="4" style="font-weight: bold; border: 1px solid black; padding: 5px;">PT. Sigap Prima Astrea</td>
+                        </tr>
+                        <tr>
+                            <td colspan="4" style="border: 1px solid black; padding: 5px;">Jl. A. Yani No. 66, RW. 3,<br>Cemp. Putih Tim., Kec. Cemp. Putih,</td>
+                        </tr>
+                        <tr>
+                            <td colspan="4" style="border: 1px solid black; padding: 5px;">Kota Jakarta Pusat - 10510</td>
+                        </tr>
+                    </table>
+
+                    <table style="width: 100%; border-collapse: collapse; border: 1px solid black; margin-top: 20px;">
+                        <tr>
+                            <td colspan="5" style="border: 1px solid black; padding: 5px;">Harap dikirimkan barang-barang berikut ini:</td>
+                        </tr>
+                        <tr>
+                            <th style="border: 1px solid black; padding: 5px; background-color: #f2f2f2;">No.</th>
+                            <th colspan="2" style="border: 1px solid black; padding: 5px; background-color: #f2f2f2;">Nama Barang</th>
+                            <th style="border: 1px solid black; padding: 5px; background-color: #f2f2f2;">Qty</th>
+                            <th style="border: 1px solid black; padding: 5px; background-color: #f2f2f2;">Satuan</th>
+                        </tr>
+                        ${suratData.rows}
+                        <tr>
+                            <td colspan="2" style="border: 1px solid black; padding: 5px; text-align: center; font-weight: bold;">
+                                Disiapkan oleh</td>
+                            <td style="border: 1px solid black; padding: 5px; text-align: center; font-weight: bold;">Disetujui oleh
+                            </td>
+                            <td></td>
+                            <td style="border: 1px solid black; padding: 5px; text-align: center; font-weight: bold;">Dikonfirmasi oleh
+                            </td>
+                        </tr>
+                        <tr style="font-weight: bold;">
+                            <td colspan="2" class="signature" style="border: 1px solid black; padding: 5px; text-align: center;">
+                                <br><br><br><br><br>Steven Jefferson<br><span style="font-size: smaller;">Staff Koperasi</span>
+                            </td>
+                            <td class="signature" style="border: 1px solid black; padding: 5px; text-align: center;">
+                                <br><br><br><br><br>Agus Sofyan Effendi<br><span style="font-size: smaller;">Manager Koperasi</span>
+                            </td>
+                            <td></td>
+                            <td class="signature" style="border: 1px solid black; padding: 5px; text-align: center;">
+                                <br><br><br><br><br>Customer
+                            </td>
+                        </tr>
+                    </table>
+
+                    <script>
+                        window.onload = function() {
+                            setTimeout(function() {
+                                window.print();
+                            }, 500);
+                        }
+                    <\/script>
+                </body>
+                </html>`
+            );
+            printDocument.close();
+        }
+
+        function printSurat() {
+            const form = document.querySelector('#box-surat form');
+            if (!form) {
+                alert("Form Surat Jalan tidak ditemukan!");
+                return;
+            }
+            const nomor = form.nomor.value;
+            const tanggalInput = form.tanggal.value;
+            const user = form.user.value;
+            const no_po = form.no_po ? form.no_po.value : "";
+            const jumlah = parseInt(form.jumlahBarang.value);
+            if (!nomor || !tanggalInput || !user || isNaN(jumlah) || jumlah <= 0) {
+                alert("Harap isi semua field yang diperlukan dan buat form barang terlebih dahulu.");
+                return;
+            }
+            let tanggalFormatted = "";
+            if (tanggalInput) {
+                const tanggalObj = new Date(tanggalInput);
+                tanggalFormatted = tanggalObj.toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' });
+            }
+            let rows = "";
+            for (let i = 1; i <= jumlah; i++) {
+                const namaInput = form[`barang${i}`];
+                const qtyInput = form[`qty${i}`];
+                const satuanInput = form[`satuan${i}`];
+                if (namaInput && qtyInput && satuanInput) {
+                    const nama = namaInput.value;
+                    const qty = qtyInput.value;
+                    const satuan = satuanInput.value;
+                    rows += `<tr>
+                                <td style="border: 1px solid black; padding: 5px;">${i}</td>
+                                <td colspan="2" style="border: 1px solid black; padding: 5px;">${nama}</td>
+                                <td style="border: 1px solid black; padding: 5px;">${qty}</td>
+                                <td style="border: 1px solid black; padding: 5px;">${satuan}</td>
+                            </tr>`;
+                } else {
+                    console.warn(`Input barang ${i} tidak ditemukan atau tidak lengkap.`);
+                }
+            }
+            const suratData = {
+                nomor: nomor,
+                tanggal: tanggalFormatted,
+                user: user,
+                no_po: no_po,
+                rows: rows
+            };
+            openPrintWindow(suratData);
+        }
+
+        document.getElementById("suratForm").addEventListener("submit", function (e) {
+            e.preventDefault();
+            const form = e.target;
+            const nomor = form.nomor.value;
+            const tanggal = form.tanggal.value;
+            const user = form.user.value;
+            let noPoInput = form.querySelector('input[name="no_po"]');
+            if (!noPoInput) {
+                noPoInput = document.createElement('input');
+                noPoInput.type = 'hidden';
+                noPoInput.name = 'no_po';
+                form.appendChild(noPoInput);
+            }
+            const no_po = noPoInput.value;
+            const jumlah = parseInt(form.jumlahBarang.value);
+            let rows = "";
+            for (let i = 1; i <= jumlah; i++) {
+                const nama = form[`barang${i}`].value;
+                const qty = form[`qty${i}`].value;
+                const satuan = form[`satuan${i}`].value;
+                rows += `<tr><td class="border border-gray-400 p-2">${i}</td><td class="border border-gray-400 p-2">${nama}</td><td class="border border-gray-400 p-2">${qty}</td><td class="border border-gray-400 p-2">${satuan}</td></tr>`;
+            }
+            document.getElementById("output").innerHTML = 
+                `<div class="bg-white p-6 rounded-xl shadow-lg">
+                    <table class="w-full border-collapse border border-gray-400">
+                        <tr>
+                            <td colspan="2" class="border border-gray-400 p-4 align-top">
+                                <strong class="text-lg text-yellow-600">Koperasi Sigap Nusantara</strong><br>
+                                <div class="mt-2 text-gray-700">
+                                    Jl. A. Yani No.66, RW.3, Cemp. Putih Timur<br>
+                                    Kota Jakarta Pusat - 10510<br>
+                                    (021) 2124525<br>
+                                    NPWP: 02.250.480.7-408.000
+                                </div>
+                            </td>
+                            <td colspan="2" class="border border-gray-400 p-4 text-right align-top">
+                                <strong class="text-lg text-yellow-700">Surat Jalan</strong><br><br>
+                                <div class="text-gray-700">
+                                    Nomor: ${nomor}<br>
+                                    Tanggal: ${tanggal}<br>
+                                    User: ${user}<br>
+                                    No PO: ${no_po || '-'}
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4" class="border border-gray-400 p-4 bg-yellow-50">
+                                <strong class="text-yellow-700">Alamat Pengiriman</strong><br>
+                                <div class="mt-2 text-gray-700">
+                                    PT. Sigap Prima Astrea<br>
+                                    Jl. A. Yani No.66, RW.3, Cemp. Putih Tim., Kec. Cemp. Putih,<br>
+                                    Kota Jakarta Pusat - 10510
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4" class="border border-gray-400 p-4">
+                                Harap dikirimkan barang-barang berikut ini:
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="border border-gray-400 p-2 bg-gray-100">No.</th>
+                            <th class="border border-gray-400 p-2 bg-gray-100">Nama Barang</th>
+                            <th class="border border-gray-400 p-2 bg-gray-100">Qty</th>
+                            <th class="border border-gray-400 p-2 bg-gray-100">Satuan</th>
+                        </tr>
+                        ${rows}
+                        <tr class="signature-block">
+                            <td class="border border-gray-400 p-4 h-32 align-bottom text-center">
+                                <div class="text-gray-700">Disiapkan oleh</div><br><br>
+                                <strong class="text-yellow-600">Steven Jefferson</strong><br>
+                                <span class="text-sm text-gray-600">Staff Koperasi</span>
+                            </td>
+                            <td class="border border-gray-400 p-4 h-32 align-bottom text-center">
+                                <div class="text-gray-700">Disetujui oleh</div><br><br>
+                                <strong class="text-yellow-600">Agus Sofyan Effendi</strong><br>
+                                <span class="text-sm text-gray-600">Manager Koperasi</span>
+                            </td>
+                            <td colspan="2" class="border border-gray-400 p-4 h-32 align-bottom text-center">
+                                <div class="text-gray-700">Dikonfirmasi oleh</div><br><br>
+                                <strong class="text-gray-700">________________________</strong><br>
+                                <span class="text-sm text-gray-600">Customer</span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>`;
+            document.getElementById("outputSection").style.display = "block";
+            document.getElementById("printButton").style.display = "inline-block";
+            document.getElementById("outputSection").scrollIntoView({ behavior: 'smooth' });
+        });
+    </script>
 </body>
 </html>
